@@ -1,11 +1,38 @@
 \documentclass[conference]{IEEEtran}
 
+\usepackage{graphicx}
+ \usepackage{amsmath}
 
+\usepackage{xspace} 
+\usepackage{hyperref}
+% cleverref has to be loaded after hyperref
+\usepackage[noabbrev]{cleveref}
+\usepackage{color}
+\usepackage{amssymb,amsmath}
+\usepackage{multirow}
+
+
+\renewcommand{\quotation}[1]{``\emph{#1}''}
+
+\newcommand{\ie}{\emph{i.e.},\xspace}
+\newcommand{\eg}{\emph{e.g.},\xspace}
+\newcommand{\etc}{\emph{etc.}\xspace}
+\newcommand{\etal}{\emph{et al.}\xspace}
+
+%\usepackage[none]{hyphenat}
+
+\usepackage{paralist}
+
+\newcommand{\nb}[3]{
+  \fcolorbox{black}{#2}{\bfseries\sffamily\scriptsize#1}
+    {\sf\small$\blacktriangleright$\textit{#3}$\blacktriangleleft$}
+}
+
+\newcommand\AB[1]{\nb{alberto}{cyan}{#1}}
 
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
-\usepackage{graphicx}
 
 \begin{document}
 %
