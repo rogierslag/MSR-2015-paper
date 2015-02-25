@@ -429,7 +429,7 @@ To do this, we analyze a public StackOverflow database dump  for several assumpt
 StackOverflow is a Q\&A community on the Internet, which is managed by the StackExchange platform. It focuses primarily on programming related questions, and is the biggest Q\&A community on that specific topic.
 \\
 \\
-StackOverflow has been gaining popularity during the last few years \cite{SOPopularity}, and lots of research has been done on the data corpus of StackOverflow, such as \cite{SOResearch1}, \cite{SOResearch2} and \cite{SOResearch3}. These and many other research papers on StackOverflow are about the users personalities \cite{buildingrep}, their field of expertise and on how these users contribute \cite{repsystem}, but not so much research has gone into how the underlying structure of the StackOverflow community. With underlying structure we mean, for example the distribution of posts among users, the distribution of reputation among users, and so on.
+StackOverflow has been gaining popularity during the last few years \cite{anderson2012discovering}, and lots of research has been done on the data corpus of StackOverflow, such as \cite{treude2011programmers}, \cite{barua2014developers} and \cite{morrison2013age}. These and many other research papers on StackOverflow are about the users personalities \cite{bosu2013building}, their field of expertise and on how these users contribute \cite{movshovitz2013analysis}, but not so much research has gone into how the underlying structure of the StackOverflow community. With underlying structure we mean, for example the distribution of posts among users, the distribution of reputation among users, and so on.
 \\
 \\
 This is why we started with some exploratory data analysis on the StackOverflow Data, which revealed that over $75\%$ of the users posted only twice or even less during their whole registration period. Given this high amount of  \textit{one-day flies} we analyzed what happens to the content that these people contribute to the system. The initial idea was that most of these single-posts could be either marked as duplicate, very specific to a certain domain / programming language and do not get answered, or reveal a flaw in the documentation of an API. To elaborate a bit further on the flaw in API Documentation, a one-day fly can ask a question regarding how to use a specific API but not have any further questions for StackOverflow as he/she is an experienced developer. However during this research interesting findings regarding these initial beliefs emerged.
@@ -441,11 +441,11 @@ By being one of the largest, and most well-known Q\&A platform regarding program
  and social studies.
 \\
 \\
-Several aspects of StackOverflow have already been investigated, such as how to build reputation \cite{buildingrep}, and how the reputation system encourages users to participate \cite{repsystem}. These works gave us insight in how the reputation system works and how this affects the user base. Other researchers \cite{correa2014chaff}. investigated the deletion of questions on StackOverflow, which we used to verify some of our research questions. 
+Several aspects of StackOverflow have already been investigated, such as how to build reputation \cite{bosu2013building}, and how the reputation system encourages users to participate \cite{movshovitz2013analysis}. These works gave us insight in how the reputation system works and how this affects the user base. Other researchers \cite{correa2014chaff}. investigated the deletion of questions on StackOverflow, which we used to verify some of our research questions. 
 
-A group of researchers from Canada \cite{PersonalityTraits} did work on the personality traits of StackOverflow users, which we used as base for the sentimental analysis for post and answers.
+A group of researchers from Canada \cite{bazelli2013personality} did work on the personality traits of StackOverflow users, which we used as base for the sentimental analysis for post and answers.
 
-And finally related work was done in \cite{sparrowsandowls}, where researchers looked specifically at the group of experts. Our work complements this work such that we look at the group that was left out in this research.
+And finally related work was done in \cite{yang2014sparrows}, where researchers looked specifically at the group of experts. Our work complements this work such that we look at the group that was left out in this research.
 \\
 
 
@@ -474,19 +474,19 @@ When the clustering into three groups is completed using k-means theory (see fig
 When correlated with the number of posts or comments, it appears there is a linear relation between those on one hand and reputation on the other hand. The center groups of the clustering almost form one straight line when plotted.
 
 \begin{figure}[h]
- \includegraphics[width=9cm]{Plots/answers_vs_rep.png}
+ \includegraphics[width=9cm]{answers_vs_rep.png}
  \caption{The number of posts a user made compared to the reputation she gained}
  \label{answers_vs_rep}
 \end{figure}
 
 \begin{figure}[h]
- \includegraphics[width=9cm]{Plots/comments_vs_rep.png}
+ \includegraphics[width=9cm]{comments_vs_rep.png}
  \caption{The number of comments a user made compared to the reputation she gained}
  \label{comments_vs_rep}
 \end{figure}
 
 \begin{figure}[h]
- \includegraphics[width=9cm]{Plots/clustering.png}
+ \includegraphics[width=9cm]{clustering.png}
  \caption{The clustering of the user groups}
  \label{kmeans_clustering}
 \end{figure}
@@ -527,7 +527,7 @@ In this section we describe the methodology used to gain answers on our research
 
 \subsection{Processing the data}
 
-The data used was made available by StackOverflow itself and also used for the 2014 MSRChallenge \cite{msrchallenge-website}. The export consisted of the (filtered) data of several key tables of the StackOverflow website. The data was formatted in XML files, which makes it hard to query directly on the data. This is why the decision was made to implement a multithreaded data loader which stored the XML data into a MSSQL database. Although the process took two days to complete, this proved to be worth the effort: it allowed to do large analysis on the entire data set instead of restricting the analysis to subsets.
+The data used was made available by StackOverflow itself and also used for the 2014 MSRChallenge \cite{MSRChallenge2015}. The export consisted of the (filtered) data of several key tables of the StackOverflow website. The data was formatted in XML files, which makes it hard to query directly on the data. This is why the decision was made to implement a multithreaded data loader which stored the XML data into a MSSQL database. Although the process took two days to complete, this proved to be worth the effort: it allowed to do large analysis on the entire data set instead of restricting the analysis to subsets.
 \\
 \\
 For the actual querying, statistical analysis, and plotting of the data a mixture of Ruby, C\#, and R was used. Whereas Ruby was used for mining additional data,  both C\# and R showed their value in querying the data and performing statistical analysis. In the end R was used to generate any plots which were able to shed more light on the data.
@@ -627,7 +627,7 @@ The result of 3 is not a surprise, however the results of 4 is interesting. Two 
 The result of 5  gives the idea that askers are relatively ``lazy''. However, since the classification ``lazy'' is quite opinionated, this cannot be used as a direct research result. However the authors did find during this qualitative research was that a few questions where later answered by the question owner him/herself. This gave the idea that one-day flies might only use StackOverflow for self-documentation purposes. 
 \\
 \\
-To get a better insight in questions 1, 2 and 4: we did an automated search for this. For question 1 and 2 this was easily done using R. For question 4, a Ruby script with SentiStrength \cite{sentistrength} was used to evaluate how friendly the answers and questions were on a scale of -4 (very unfriendly) to 4 (very friendly). 
+To get a better insight in questions 1, 2 and 4: we did an automated search for this. For question 1 and 2 this was easily done using R. For question 4, a Ruby script with nielsen2011new \cite{nielsen2011new} was used to evaluate how friendly the answers and questions were on a scale of -4 (very unfriendly) to 4 (very friendly). 
 \\
 \\
 For question 1, it turned out that for non one-day flies $65\%$ of the questions had code, and $58\%$ of the answers (over the set of all questions with an accepted answer). For one-day flies these numbers were $70\%$ and $65\%$ respectively. This indicates one day flies give and receive a bit more code than the other users.
@@ -677,84 +677,14 @@ During the research the authors had several discussions with other developers re
 As indicated by the previous sections, there does not seem to be a clear reason within these statistics why the group of \textit{one day flies} does contribute more to the platform. It therefore seems there are other reasons for one-day flies to stop contributing to the StackOverflow platform. In this paper, no definite conclusion can be given of the \textit{why} the vast majority of StackOverflow only posts one question. However a number of research questions were evaluated with their statistics shown in figure \ref{finalResults} , and more possible open research questions which can be found in \ref{NewResearchQuestions}, allowing for future work.
 
 \begin{figure}[h]
- \includegraphics[width=9cm]{Plots/BarPlot.png}
+ \includegraphics[width=9cm]{BarPlot.png}
  \caption{Results of the analysis}
  \label{finalResults}
 \end{figure}
 
+\bibliographystyle{abbrv}
+\bibliography{onedayflies}
 
-
-\begin{thebibliography}{1}
-
-% MLA style
-
-\bibitem{SOPopularity}
-Anderson, Ashton, et al.
-\emph{Discovering value from community activity on focused question answering sites: a case study of stack overflow.},
-\hskip 1em plus 0.5em minus 0.4em\relax
-Proceedings of the 18th ACM SIGKDD international conference on Knowledge discovery and data mining. ACM, 2012.
-
-\bibitem{SOResearch1}
-Treude, Christoph, Ohad Barzilay, and Margaret-Anne Storey.
-\emph{How do programmers ask and answer questions on the web?},
-\hskip 1em plus 0.5em minus 0.4em\relax
-Nier track." Software Engineering (ICSE), 2011 33rd International Conference on. IEEE, 2011.
-
-\bibitem{SOResearch2}
-Barua, Anton, Stephen W. Thomas, and Ahmed E. Hassan.
-\emph{What are developers talking about? an analysis of topics and trends in stack overflow.},
-\hskip 1em plus 0.5em minus 0.4em\relax
-Empirical Software Engineering 19.3 (2014): 619-654.
-
-\bibitem{SOResearch3}
-Morrison, Patrick, and Emerson Murphy-Hill.
-\emph{Is programming knowledge related to age? an exploration of stack overflow.},
-\hskip 1em plus 0.5em minus 0.4em\relax
-Mining Software Repositories (MSR), 2013 10th IEEE Working Conference on. IEEE, 2013.
-
-\bibitem{buildingrep}
-Bosu, Amiangshu, et al.
-\emph{Building reputation in stackoverflow: an empirical investigation.},
-\hskip 1em plus 0.5em minus 0.4em\relax
-Proceedings of the 10th Working Conference on Mining Software Repositories. IEEE Press, 2013.
-
-\bibitem{repsystem}
-Movshovitz-Attias, Dana, et al.
-\emph{Analysis of the reputation system and user contributions on a question answering website: StackOverflow.},
-\hskip 1em plus 0.5em minus 0.4em\relax
-Proceedings of the 2013 IEEE/ACM International Conference on Advances in Social Networks Analysis and Mining. ACM, 2013.
-
-\bibitem{correa2014chaff}
-Correa, Denzil, and Ashish Sureka.
-\emph{Chaff from the wheat: characterization and modeling of deleted questions on stack overflow.},
-\hskip 1em plus 0.5em minus 0.4em\relax
-Proceedings of the 23rd international conference on World wide web. International World Wide Web Conferences Steering Committee, 2014.
-
-\bibitem{PersonalityTraits}
-Blerina Bazelli, Abram Hindle, and Eleni Stroulia
-\emph{On the Personality Traits of StackOverflow Users},
-\hskip 1em plus 0.5em minus 0.4em\relax
-2013 IEEE International Conference on Software Maintenance
-
-\bibitem{sparrowsandowls}
-Jie Yang, Ke Tao, Alessandro Bozzon, and Geert-Jan Houben
-\emph{Sparrows and Owls: Characterisation of Expert Behaviour in StackOverflow},
-\hskip 1em plus 0.5em minus 0.4em\relax
-22nd International Conference, UMAP 2014, Aalborg, Denmark, July 7-11, 2014. Proceedings
-
-\bibitem{msrchallenge-website}
-A. Ying, et al.
-\emph{Mining Challenge - MSR 2015},
-\hskip 1em plus 0.5em minus 0.4em\relax
-http://2015.msrconf.org/challenge.php
-
-\bibitem{sentistrength}
-Nielsen, Finn Årup.
-\emph{A new ANEW: Evaluation of a word list for sentiment analysis in microblogs.}
-\hskip 1em plus 0.5em minus 0.4em\relax
-arXiv preprint arXiv:1103.2903 (2011).
-
-\end{thebibliography}
 
 % that's all folks
 \end{document}
