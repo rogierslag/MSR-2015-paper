@@ -93,51 +93,76 @@ platform.
 
 \section{Introduction}
 
-StackOverflow is a Q\&A community on the Internet, which is managed by the StackExchange platform. It focuses primarily on programming related questions, and is the biggest Q\&A community on that specific topic.
-\\
-\\
-StackOverflow has been gaining popularity during the last few years \cite{anderson2012discovering}, and lots of research has been done on the data corpus of StackOverflow, such as \cite{treude2011programmers}, \cite{barua2014developers} and \cite{morrison2013age}. These and many other research papers on StackOverflow are about the users personalities \cite{bosu2013building}, their field of expertise and on how these users contribute \cite{movshovitz2013analysis}, but not so much research has gone into how the underlying structure of the StackOverflow community. With underlying structure we mean, for example the distribution of posts among users, the distribution of reputation among users, and so on.
-\\
-\\
-This is why we started with some exploratory data analysis on the StackOverflow Data, which revealed that over $75\%$ of the users posted only twice or even less during their whole registration period. Given this high amount of  \textit{one-day flies} we analyzed what happens to the content that these people contribute to the system. The initial idea was that most of these single-posts could be either marked as duplicate, very specific to a certain domain / programming language and do not get answered, or reveal a flaw in the documentation of an API. To elaborate a bit further on the flaw in API Documentation, a one-day fly can ask a question regarding how to use a specific API but not have any further questions for StackOverflow as he/she is an experienced developer. However during this research interesting findings regarding these initial beliefs emerged.
+StackOverflow is a Q\&A community on the Internet, which is managed by the
+StackExchange platform. It focuses primarily on programming related questions,
+and is the biggest Q\&A community on that specific topic.
+
+StackOverflow has been gaining popularity during the last few years
+\cite{anderson2012discovering}, and lots of research has been done on the data
+corpus of StackOverflow, such as \cite{treude2011programmers},
+\cite{barua2014developers} and \cite{morrison2013age}. These and many other
+research papers on StackOverflow are about the users personalities
+\cite{bosu2013building}, their field of expertise and on how these users
+contribute \cite{movshovitz2013analysis}, but not so much research has gone
+into how the underlying structure of the StackOverflow community. With
+underlying structure we mean, for example the distribution of posts among
+users, the distribution of reputation among users, and so on.
+
+This is why we started with some exploratory data analysis on the StackOverflow
+Data, which revealed that over $75\%$ of the users posted only twice or even
+less during their whole registration period. Given this high amount of
+\textit{one-day flies} we analyzed what happens to the content that these
+people contribute to the system. The initial idea was that most of these
+single-posts could be either marked as duplicate, very specific to a certain
+domain / programming language and do not get answered, or reveal a flaw in the
+documentation of an API. To elaborate a bit further on the flaw in API
+Documentation, a one-day fly can ask a question regarding how to use a specific
+API but not have any further questions for StackOverflow as he/she is an
+experienced developer. However during this research interesting findings
+regarding these initial beliefs emerged.
 
 
 \section{Related work}
 
-By being one of the largest, and most well-known Q\&A platform regarding programming related questions, StackOverflow is an interesting community for researchers. Additionally StackOverflow actively releases parts of its database to the public, which proved to be of an extreme value for researchers. Therefore, it comes as no surprise StackOverflow has attracted a significant amount of researchers in the areas of software engineering,
- and social studies.
-\\
-\\
-Several aspects of StackOverflow have already been investigated, such as how to build reputation \cite{bosu2013building}, and how the reputation system encourages users to participate \cite{movshovitz2013analysis}. These works gave us insight in how the reputation system works and how this affects the user base. Other researchers \cite{correa2014chaff}. investigated the deletion of questions on StackOverflow, which we used to verify some of our research questions. 
+By being one of the largest, and most well-known Q\&A platform regarding
+programming related questions, StackOverflow is an interesting community for
+researchers. Additionally StackOverflow actively releases parts of its database
+to the public, which proved to be of an extreme value for researchers.
+Therefore, it comes as no surprise StackOverflow has attracted a significant
+amount of researchers in the areas of software engineering, and social studies.
 
-A group of researchers from Canada \cite{bazelli2013personality} did work on the personality traits of StackOverflow users, which we used as base for the sentimental analysis for post and answers.
+Several aspects of StackOverflow have already been investigated, such as how to
+build reputation \cite{bosu2013building}, and how the reputation system
+encourages users to participate \cite{movshovitz2013analysis}. These works gave
+us insight in how the reputation system works and how this affects the user
+base. Other researchers \cite{correa2014chaff}. investigated the deletion of
+questions on StackOverflow, which we used to verify some of our research
+questions. 
 
-And finally related work was done in \cite{yang2014sparrows}, where researchers looked specifically at the group of experts. Our work complements this work such that we look at the group that was left out in this research.
-\\
+A group of researchers from Canada \cite{bazelli2013personality} did work on
+the personality traits of StackOverflow users, which we used as base for the
+sentimental analysis for post and answers.
 
+And finally related work was done in \cite{yang2014sparrows}, where researchers
+looked specifically at the group of experts. Our work complements this work
+such that we look at the group that was left out in this research.
 
 
 \section{Exploratory Data Analysis}
 
 % How is the stackoverflow data structured, how are the distributions of entities
 For this analysis, the StackOverflow data as provided by the 2014 MSR Challenge was used. This data was then preprocessed and saved to a MS-SQL server. This allowed for rapid processing, due to which large parts of the analysis could be done on the entire data set.
-\\
-\\
+
 After this preprocessing step was completed an exploratory analysis was done on the data set. Since StackOverflow is a regular Q\&A website, focused on programming languages, there was a suspicion it would adhere to general community dynamics specifics. An indicator of this would be a large number of inactive users, a small set of users which are more active, and a very small set of very active users.
-\\
-\\
+
 To test this, clustering of several user groups was required. Even though  this can be done using several aspects, the number of posts is for most communities applicable, as this is a direct measure for contributions to the community. Moreover StackOverflow has a special reputation system, which gamifies the platform. The reputation is acquired by users through the system and reflects how the contributions of people are received by the community. Using the reputation points earned by the users, they can be classified into several groups. Based  on general community dynamics, a clustering in three groups seemed appropriate, as this would result in inactive (or one-day flies), active and very active user groups.
-\\
-\\
+
 In the dataset we got from StackOverflow on september 26th in 2014, a total of 2.063.174 users had a reputation of one, whilst the total amount of users of StackOverflow is 3.473.095.This causes the median to  equal to one, whereas the third quartile is just $13$. Compared to the maximum value of $709.269$ it is safe to conclude that a lot of users do not actively participate in the community, either by asking questions or proposing answers.
-\\
-\\
+
 This can also be seen in the analysis of the number of posts a user made. $75\%$ of the people has made a maximum of two posts. Again here the maximum is shifted towards the other end; the user with the most posts has acquired $30.043$ posts on the website. It therefore seems a large majority of the users has no need nor wish to participate more in the community.
-\\
-\\
+
 When the clustering into three groups is completed using k-means theory (see figure \ref{kmeans_clustering}), three clusters are obtained, based on the reputation they achieved. The group of what we refer to as one-day-flies is the largest, with a total of $3.469.897$ users. The medium active user group is significantly smaller and only contains $3.012$ users with an average reputation of $38.000$. The group with the most reputation is by far the smallest, and only contains $186$ users. The average reputation of this group is then very high (almost $200.000$).
-\\
-\\
+
 When correlated with the number of posts or comments, it appears there is a linear relation between those on one hand and reputation on the other hand. The center groups of the clustering almost form one straight line when plotted.
 
 \begin{figure}[h]
@@ -159,44 +184,35 @@ When correlated with the number of posts or comments, it appears there is a line
 \end{figure}
 
 
-\section{Initial Assumptions}
-\label{InitialAssumptions}
+\section{Initial Assumptions} \label{InitialAssumptions}
 
 Before conducting the actual research, a number of assumptions was made. These assumptions formed the base for the research questions we try to answer.
-\\
-\\
+
 One of the earliest assumptions, which is not tested, was that the group with largest number of users which are not active on the site at all, consists of so-called \textit{newbies}. These were more likely to not understand how the community of StackOverflow works, and may ask trivial questions which are not suitable for the level of expertise StackOverflow aims for.
-\\
-\\
+
 % Assumption of duplicate questions
 More testable assumptions were also made. Many users which would register on the website could, because of their unfamiliarity with the system, ask questions which had been asked previously. These questions are quickly flagged by the community as \textit{duplicate}. However this may be the appropriate action for the community as a whole, it can be extremely discouraging for the user which posted the question. Our research question is then: \textit{Are users which have posted only one question more likely to have created questions which are marked as duplicates}.
-\\
-\\
+
 % Assumption of uncommon tags
 It may also be the case that these users got discouraged due to some other reason, such as asking questions about uncommon topics. In case their question was regarding a topic with hardly any experts on the StackOverflow platform, the user again can get discouraged by the lack of comments or answers to guide them into the right direction. However, simply parsing the content of the question is not sufficient. In order to be found by possible experts, it is also required for users to use the correct tags for their question. Otherwise, the question might simply get lost in enormous question set of StackOverflow. This gives the following research question on this topic: \textit{Are users which have posted only one question more likely to have posted questions with uncommon tags}.
-\\
-\\
+
 % Assumption of deletions
 Another possible explanation for the large number of users with a low question count can also be found in deletions. Users themselves can delete questions after posting them, and so can the community's moderators. This can have quite an impact. As studied in \cite{correa2014chaff}, deleted questions usually are of a very low quality (the quality is considered low compared to the expectation of the StackOverflow community). Users unfamiliar with the ethos of StackOverflow may inadvertently post such questions, only later realizing these do not belong there, and be deleted (or be deleted by moderators). This gives rise to the following research question: \textit{Are users which have posted only one questions more likely to have their posts removed (either themselves or by a moderator / community)}.
-\\
-\\
+
 % Assumption of less views
 Additionally it may be the case the user question was not viewed as much as they had anticipated, resulting in fewer good answers. It may be the case their question was listed lower due to their lack of reputation, or simply got lost in the list of questions. Apart from that, it is also possible that questions from people with no post history simply get opened less often, resulting in lower quality answers. Since a low view count can also, to some extent, discourage the question askers, since he or she may feel neglected by the community. The research question following from the above yields the following: \textit{Are users which have posted only one question more likely to attract less views to the question he or she posted}.
-\\
-\\
+
 % Assumption of unanswered questions
 The final assumption that was made is that new users simply got let down by the community: they asked a question which did not violate any of the StackOverflow rules, but did not receive a (satisfactory) answer anyway. This would probably the most discouraging situation, since the user did not do anything wrong, but did not receive help due to aspects out of his or her control. That might cause them to lose the confidence in the community itself. This yields the following research question: \textit{Are users which have posted only one question more likely to have received no answer to their original question}. 
 
-\section{Methodology}
-\label{Methodology}
+\section{Methodology} \label{Methodology}
 
 In this section we describe the methodology used to gain answers on our research questions which we specified in the section \ref{InitialAssumptions}.
 
 \subsection{Processing the data}
 
 The data used was made available by StackOverflow itself and also used for the 2014 MSRChallenge \cite{MSRChallenge2015}. The export consisted of the (filtered) data of several key tables of the StackOverflow website. The data was formatted in XML files, which makes it hard to query directly on the data. This is why the decision was made to implement a multithreaded data loader which stored the XML data into a MSSQL database. Although the process took two days to complete, this proved to be worth the effort: it allowed to do large analysis on the entire data set instead of restricting the analysis to subsets.
-\\
-\\
+
 For the actual querying, statistical analysis, and plotting of the data a mixture of Ruby, C\#, and R was used. Whereas Ruby was used for mining additional data,  both C\# and R showed their value in querying the data and performing statistical analysis. In the end R was used to generate any plots which were able to shed more light on the data.
 
 
@@ -237,17 +253,14 @@ Surprisingly enough the top-5 tags of both one-day flies and regular users are i
 
 \subsection{Deleted questions}
 As it turned out, the number of deleted questions for low post count users was $15.4\%$, whereas it was $10.9\%$ for the high post count users. However, it cannot easily be determined what the reason for deletion was. As explained in \cite{correa2014chaff}, there are several reasons for a question to be deleted. Without additional information, more research is needed to determine whether this can be a factor in the user participation. This research question therefore can not yet be answered.
-\\
-\\
+
 The same analysis also gave interesting insights in the number of closed posts. For both groups, this turned out to be surprisingly low: $0.92\%$ for low post count users, and $0.76\%$ for high post count users. Questions can be closed for various reasons, such as being a duplicate or for being off-topic. Closed questions may be improved or deleted later on. However, the difference between the number is quite low , which allows us to answer the research question \textit{Do one-day flies more often have their questions removed?} with no.
 
 \subsection{View counts}
 As it turns out, both groups have an average view count of around $190$ (for one-day-flies this was $198$, for regular users $187$). However, the view count cannot be used only to determine this, since the standard deviation for these groups was quite high (respectively $400$ for one-day-flies, but over $1.000$ for regular users). To compensate for these effects, the dataset was modified to only include the posts which fitted into the $10\%$ to $90\%$ range of the view counts, and the results were rerun.
-\\
-\\
+
 Using this reduced data set, with the extremes removed, a similar result is obtained, with an average view count of $127$ for one-day-flies and $113$ for non-one-day-flies. The standard deviations dropped a lot as well, to only $100$ respectively $93$. When the analysis is repeated by eliminating the extreme $5\%$ of $20\%$, similar results remain.
-\\
-\\
+
 Therefore we conclude that the posts of one-day-flies are actually not viewed less than those of non-one-day-flies, since it any case the view count of the latter group is actually lower. The research question \textit{Are users which have posted only one question more likely to attract less views to the question he or she have posted} is therefore no.
 
 \subsection{Unanswered questions}
@@ -286,26 +299,20 @@ After answering these questions the results for the sample where as follows:
 \newline
 
 The results of 1 and 2 show that over half the questions and accepted answers did not contain code, even though the questions where programming related. Most of them where regarding versioning systems, or development methods (such as Agile or database systems).  However it still might be interesting to look at the code example quality as this seemed relatively poor in the sample the authors took.
-\\
-\\
+
 The result of 3 is not a surprise, however the results of 4 is interesting. Two answers where unfriendly, but still got accepted. This gives the idea for a new research question: Do one-day flies  not come back due to negative feedback? 
-\\
-\\
+
 The result of 5  gives the idea that askers are relatively ``lazy''. However, since the classification ``lazy'' is quite opinionated, this cannot be used as a direct research result. However the authors did find during this qualitative research was that a few questions where later answered by the question owner him/herself. This gave the idea that one-day flies might only use StackOverflow for self-documentation purposes. 
-\\
-\\
+
 To get a better insight in questions 1, 2 and 4: we did an automated search for this. For question 1 and 2 this was easily done using R. For question 4, a Ruby script with nielsen2011new \cite{nielsen2011new} was used to evaluate how friendly the answers and questions were on a scale of -4 (very unfriendly) to 4 (very friendly). 
-\\
-\\
+
 For question 1, it turned out that for non one-day flies $65\%$ of the questions had code, and $58\%$ of the answers (over the set of all questions with an accepted answer). For one-day flies these numbers were $70\%$ and $65\%$ respectively. This indicates one day flies give and receive a bit more code than the other users.
-\\
-\\
+
 To answer the friendliness, a random subset of $10000$ questions with an accepted answer was taken. It turned out that non one-day-flies questions had a niceness of $0.079$, and the answers they received had a niceness of $0.059$. This indicates that both the questions and answers were mostly formal and professional, and on average slightly positive.
-\\
+
 Again this was a bit different for one-day flies: they had a question niceness of $0.196$ and received an answer with niceness $0.092$. Still the tone appears to be mostly formal and professional, but the underlying touch tends to be a bit more positive.
 
-\section{New Research Questions}
-\label{NewResearchQuestions}
+\section{New Research Questions} \label{NewResearchQuestions}
 
 Based on the work presented in the previous chapter, the authors formulated a number of new research questions. This might form the basis for future work regarding the participation of \textit{one-day-flies} on Q\&A communities such as StackOverflow.
 
@@ -313,27 +320,23 @@ Based on the work presented in the previous chapter, the authors formulated a nu
 \subsection{Code example quality}
 
 In general it seems the quality of the code examples in questions of one-day-flies is lower compared to the quality of users with a higher reputation. One-day-flies generally include too much code (by simply pasting all the code into the questions code block. This discourages users to form an adequate explanation.
-\\
-\\
+
 Apart from that, the general code quality itself is lower as well. Code is poorly modularized, which causes people to respond to those issues, before addressing the original problem of the question asker. He or she may then get irritated, since they receive feedback they simply are not ready for at that point in the learning process. The same goes for the people trying to figure out what the issue is: they need to wrap their mind around to some non-standard principles used by others, which are (from their perspective) less easy to reason about.
 
 %Assumption of negative feedback from the community
 \subsection{Negative feedback}
 
 As stated in the previous paragraph, it is often the case the StackOverflow community gives tips and advice to novices how certain problems should be structured. However, for the question asker this can be seen as negative feedback. It does not solve their problem, while it increases the work they have to do in order to solve the problem or even get community support.
-\\
-\\
+
 Even without this feedback, the StackOverflow community has strict rules on the type of questions allowed on the platform. A quick search over time showed the authors that these rules were not strictly followed in the early days of the StackExchange platform, but are more followed these days. This causes many beginners questions, subjective discussions (\textit{Is A better than B?}), or too-localized questions (\textit{What does this regular expression do?}) to be voted for closing or deletion.
-\\
-\\
+
 Since the community has answered a large number of questions, one can expect the same thing to happen for other things, such as \textit{marked as duplicate}. The chances are increasing that somewhere in the database, a very similar question might have been asked already, and received an appropriate answer. Meanwhile, a beginner on the platform might not be aware of the exact terminology to find that specific question. Therefore they may consider their problem to be new and unique, causing them to post it. Several minutes later, they may find their question marked as a duplicate combined with a snide comment on "how you can search on StackOverflow". Little imagination is needed to see how a user would see this as a negative feedback from the community.
 
 
 %This section is written after writing the qualitative research section thus doesn't have to be revised (only spell/grammar checked)
 \subsection{Self-answering}
 In section \ref{QualitativeResearch}  the authors found that some of the questions accepted answers where given by the authors of these questions. This could be done for documentation purposes, but also for attempting to gain reputation, while other answers might be better. However in order to explore this further, it is first interesting to evaluate whether one-day flies more often answer their own questions than non-one-day flies on StackOverflow.
-\\
-\\
+
 A user does not get reputation for answering their own question (but they can get reputation if the answer is upvoted by others). Here there seems to be a clear trend: users have found and answer, and decided to share it with the community (even though they do not have a direct profit from it themselves). This seems to be an indication these users are not scared away from StackOverflow at that point (otherwise they likely would not have posted that answer). 
 
 \subsection{Everything can be found}
