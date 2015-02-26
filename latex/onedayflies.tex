@@ -10,7 +10,7 @@
 \usepackage{color}
 \usepackage{amssymb,amsmath}
 \usepackage{multirow}
-
+\usepackage{tcolorbox}
 
 \renewcommand{\quotation}[1]{``\emph{#1}''}
 
@@ -30,7 +30,10 @@
 
 \newcommand\AB[1]{\nb{alberto}{cyan}{#1}}
 
-\newcommand\odf{\emph{One-day flies}\xspace}
+\newcommand\odf{\emph{one-day flies}\xspace}
+\newcommand\Odf{\emph{One-day flies}\xspace}
+
+\tcbset{center title,center upper,fonttitle=\bfseries}
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
@@ -78,33 +81,28 @@ users to become more active, thus improving the platform.
 
 \section{Introduction}
 
-StackOverflow is a Q\&A community on the Internet, which is managed by the
-StackExchange platform. It focuses primarily on programming related questions,
-and is the biggest Q\&A community on that specific topic.
+StackOverflow is a Q\&A platform and community on the Internet that focuses 
+primarily on programming related questions. SO has been gaining huge popularity during the last few years
+\cite{anderson2012discovering} and the availability of its data dump to the
+public has triggered numerous investigations (\eg
+\cite{treude2011programmers,barua2014developers,morrison2013age}). 
+Many studies on SO cover aspects related to users, such as their personalities
+\cite{bosu2013building}, their field of expertise, and on how they
+contribute \cite{movshovitz2013analysis}. Little is know, yet, about the 
+underlying structure of the StackOverflow community, in particular the 
+distribution of posts and reputation among users.
 
-StackOverflow has been gaining popularity during the last few years
-\cite{anderson2012discovering}, and lots of research has been done on the data
-corpus of StackOverflow, such as \cite{treude2011programmers},
-\cite{barua2014developers} and \cite{morrison2013age}. These and many other
-research papers on StackOverflow are about the users personalities
-\cite{bosu2013building}, their field of expertise and on how these users
-contribute \cite{movshovitz2013analysis}, but not so much research has gone
-into how the underlying structure of the StackOverflow community. With
-underlying structure we mean, for example the distribution of posts among
-users, the distribution of reputation among users, and so on.
+In this paper, we try to start filling this gap by analyzing less active users,
+\ie those who post only once during their whole registration period.  To this
+aim, we first quantify these users finding that they account for about half of
+the users of SO. Then, we use different information sources to try to
+quantitatively characterize this set of users, which we call \odf, by
+contrasting them with more active participants.  Finally, we conduct an initial
+qualitative investigation to better understand what could induce these users to
+stop contributing.  Results show that many of our hypotheses of why users
+become \odf do not fully explain this phenomenon. We discuss aspects that
+emerged as good candidates for future evaluation.
 
-This is why we started with some exploratory data analysis on the StackOverflow
-Data, which revealed that over $75\%$ of the users posted only twice or even
-less during their whole registration period. Given this high amount of
-\textit{one-day flies} we analyzed what happens to the content that these
-people contribute to the system. The initial idea was that most of these
-single-posts could be either marked as duplicate, very specific to a certain
-domain / programming language and do not get answered, or reveal a flaw in the
-documentation of an API. To elaborate a bit further on the flaw in API
-Documentation, a one-day fly can ask a question regarding how to use a specific
-API but not have any further questions for StackOverflow as he/she is an
-experienced developer. However during this research interesting findings
-regarding these initial beliefs emerged.
 
 
 \section{Related work}
@@ -144,10 +142,9 @@ of one post, while the most prolific user had 30.043 posts. Similarly, 60\%
 the maximum value is 709.269.  This is in line with general trends on Q\&A
 platforms.
 
-We then apply clustering to users based on their reputation, using k-means;
-\Cref{kmeans_clustering} shows how these clusters are averagely placed in terms
-of posts and reputation. The largest group of users (3.469.897) is placed in
-the bottom-left of the plot; the medium active user group is significantly
+We then apply clustering to users based on their reputation, using k-means.
+The largest group consists of 3.469.897 users, who have between 0 and 1 of
+reputation and posted questions; the medium active user group is significantly
 smaller (3.012 users) with an average reputation of 38.000;  the group with the
 most reputation is by far the smallest (186 users) with a very high average
 reputation of ca. 200.000.
@@ -156,11 +153,6 @@ With this information, we define \odf as users who posted a maximum of one
 question in SO, thus covering both low activity and low reputation. This set
 comprises 1.622.688 users, \ie 47\% of the user base. 
 
-\begin{figure}[h]
- \includegraphics[width=\columnwidth]{clustering.png}
- \caption{The clustering of the user groups}
- \label{kmeans_clustering}
-\end{figure}
 
 
 \section{Experiment}
@@ -174,9 +166,11 @@ analysis, and plotting of the data we use a mixture of Ruby (especially to mine
 additional data), C\# (to query the data), and R (to perform statistical
 analysis and generate plots).  In the following we describe each hypothesis,
 with the intuition behind it, the research method we used to test it, and the
-results.
+results.\\
 
-\subsection{Duplicate questions}
+\begin{tcolorbox}[size=fbox,title=RQ1: Duplicate Questions]
+Are \odf more likely to create questions eventually marked as duplicates?
+\end{tcolorbox}
 
 \textbf{Intuition.} New users who register on
 the website could, because of their unfamiliarity with the system, ask
@@ -184,8 +178,6 @@ questions that have been asked previously. These questions would be flagged
 by the community as \textit{duplicate}. Although this may be the appropriate
 action for the community as a whole, it could be extremely discouraging for the
 user which posted the question, thus inducing to not post anymore. 
-
-\textbf{RQ1:} Are \odf more likely to create questions marked as duplicates?
 
 \textbf{Research method.} To answer this research question, we compare the
 percentage of duplicate questions  between all users and \odf. To do so, we
@@ -205,10 +197,12 @@ percentage increases to $2.9\%$ for the regular users. We found this
 surprising, since we expected regular users to be more familiar with the
 platform and its search functionality. Based on these results, \odf are not
 more likely to create duplicate questions than regular users, but slightly
-less.
+less.\\
 
 
-\subsection{Uncommon tags}
+\begin{tcolorbox}[size=fbox,title=RQ2: Uncommon Tags]
+Are \odf more likely to post questions with uncommon tags?
+\end{tcolorbox}
 
 \textbf{Intuition.} The topic of a question in SO is commonly translated into
 tags, which make it easier for experts to find questions they could answer.
@@ -216,8 +210,6 @@ Users who post questions regarding a topic with hardly any experts on the SO
 platform can get discouraged by the lack of comments or answers to guide them
 into the right direction. This types of topics would be reflected by uncommon
 tags accompanying the questions. 
- 
-\textbf{RQ2:} Are \odf more likely to post questions with uncommon tags?
  
 \textbf{Research method.} Correa and Sureka found over $3.300$ tags that only
 occur in questions of quality far below StackOverflow
@@ -230,9 +222,12 @@ most popular tags and the existence of a popular uncommon topic among \odf.
 \textbf{Results.} Surprisingly the top-5 tags of both \odf and regular users
 are identical (although ordered different). Although there are a few tags that
 are specific to \odf, most of them is very similar. Based on these results, the
-answer to our research question is negative. 
+answer to our research question is negative.\\
 
-\subsection{Deleted questions}
+\begin{tcolorbox}[size=fbox,title=RQ3: Deleted Questions]
+Are \odf more likely to have their posts removed (either by
+themselves or by a moderator)?
+\end{tcolorbox}
 
 \textbf{Intuition.} Another possible explanation for the large number of users
 with a low question count can also be found in deletions. Users themselves can
@@ -243,10 +238,7 @@ low compared to the expectation of the SO community). Users unfamiliar with the
 ethos of StackOverflow may inadvertently post such questions, only later
 realizing these do not belong there, and be deleted (or be deleted by
 moderators). 
- 
-\textbf{RQ3:} Are \odf more likely to have their posts removed (either by
-themselves or by a moderator)?
- 
+
 \textbf{Research method.} The number of deletions is not directly obtainable
 from the database dump as provided by StackOverflow: The only way to know
 whether a question on the data dump has been eventually removed is to check its
@@ -263,18 +255,18 @@ easily be determined what the reason for deletion was. As explained in
 \cite{correa2014chaff}, there are several reasons for a question to be deleted.
 Without additional information we cannot soundly determine whether this can be
 a factor in the user participation. Therefore further investigation would be
-necessary to give a more complete answer to this question.
-The same analysis also gave interesting insights in the number of closed posts.
-For both groups, the ratio of closed posts is surprisingly low: $0.92\%$ for
-\odf and $0.76\%$ for high post count users. Questions can be closed for
-various reasons, such as being a duplicate or for being off-topic. Closed
-questions may be improved or deleted later on. However, the difference between
-the number is quite low, thus we can negatively answer the research question
-one considering closed posts. 
+necessary to give a more complete answer to this question.  The same analysis
+also gave interesting insights in the number of closed posts.  For both groups,
+the ratio of closed posts is surprisingly low: $0.92\%$ for \odf and $0.76\%$
+for high post count users. Questions can be closed for various reasons, such as
+being a duplicate or for being off-topic. Closed questions may be improved or
+deleted later on. However, the difference is quite low, thus we can give a 
+negative answer to the research question when considering closed posts.\\ 
 
 
-
-\subsection{View count}
+\begin{tcolorbox}[size=fbox,title=RQ4: View Count]
+Are \odf more likely to attract less views? 
+\end{tcolorbox}
 
 \textbf{Intuition.} It is possible that users' questions are not
 viewed as much as they had anticipated, resulting in fewer good answers. It may
@@ -283,8 +275,6 @@ simply got lost in the list of questions. Apart from that, it is also possible
 that questions from people with no post history simply get opened less often,
 resulting in lower quality answers. A low view count can discourage the 
 question askers, since they may feel neglected by the community. 
- 
-\textbf{RQ4:} Are \odf more likely to attract less views? 
  
 \textbf{Research method.} To answer our research question, we distinguish
 between \odf and all users. To examine the results,
@@ -303,10 +293,12 @@ users. The standard deviations dropped a lot as well, to only $100$
 respectively $93$. When the analysis is repeated by eliminating the extreme
 $5\%$ of $20\%$, similar results remain. Therefore we conclude that the posts
 of one-day-flies are actually not viewed less than those of non-one-day-flies,
-since it any case the view count of the latter group is actually lower. 
+since it any case the view count of the latter group is actually lower.\\
 
 
-\subsection{Unanswered questions}
+\begin{tcolorbox}[size=fbox,title=RQ5: Unanswered Questions]
+Are \odf more likely to receive no answer to their questions?
+\end{tcolorbox}
 
 \textbf{Intuition.} New users simply got let down by the community: They asked
 a question which did not violate any of the StackOverflow rules, but did not
@@ -314,8 +306,6 @@ receive a (satisfactory) answer anyway. This would probably the most
 discouraging situation, since the user did not receive help due to aspects out
 of his or her control. That might cause them to lose the confidence in the
 community itself. 
- 
-\textbf{RQ5:} Are \odf more likely to receive no answer to their questions?
  
 \textbf{Research method.} To answer our question, we compared the set of
 questions done by \odf to the set of questions done by other users.
@@ -334,10 +324,10 @@ number of \odf.
 
 \section{Qualitative research}\label{QualitativeResearch}
 Since the results did not reveal a clear reason that could completely account
-for the whole large number of \odf, we decided upon a small qualitative research to get new ideas
-and see if something was overlooked that can be found in the data itself rather
-easily.  For this the authors manually scanned through $50$ posts and their
-accepted answer, answering the following questions:
+for the whole large number of \odf, we decided upon a small qualitative 
+research to get new ideas and see if something was overlooked that can be found
+in the data. To this aim, we manually analyzed $50$ posts and their
+accepted answer, with an eye on the following questions:
 
 \begin{enumerate}
 \item Does the question contain code?
