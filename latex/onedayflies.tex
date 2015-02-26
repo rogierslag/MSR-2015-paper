@@ -30,6 +30,7 @@
 
 \newcommand\AB[1]{\nb{alberto}{cyan}{#1}}
 
+\newcommand\odf{\emph{One-day flies}\xspace}
 
 \hyphenation{op-tical net-works semi-conduc-tor}
 
@@ -39,21 +40,6 @@
 {\LARGE Why the vast majority of StackOverflow users only posts once}}
 
 
-% author names and affiliations
-% use a multiple column layout for up to three different
-% affiliations
-\author{\IEEEauthorblockN{Rogier Slag}
-\IEEEauthorblockA{Delft University of Technology\\
-Delft, the Netherlands\\
-1507761\\
-rogier.slag@gmail.com
-}
-\and
-\IEEEauthorblockN{Mike de Waard}
-\IEEEauthorblockA{Delft University of Technology\\
-Delft, the Netherlands\\
-4081064\\
-mikedewaard@gmail.com}}
 
 \author{
 \IEEEauthorblockN{
@@ -80,11 +66,10 @@ StackOverflow (SO) is a popular question and answers (Q\&A) platform related to
 software development. An interesting characteristic of SO is that approximately
 75\% of its users makes only one contribution to the platform in total.
 
-In this work, we study this group of users, which we call \emph{one-day
-flies}, and we investigate why they do not continue to contribute to the
-platform, despite its growing popularity. By achieving this understanding we 
-can find ways to enable users to become more active, thus improving the 
-platform. 
+In this work, we study this group of users, which we call \odf, and we 
+investigate why they do not continue to contribute to the platform, despite its
+growing popularity. By achieving this understanding we can find ways to enable
+users to become more active, thus improving the platform. 
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -139,7 +124,7 @@ SO~\cite{yang2014sparrows}; our work complements theirs by considering a
 different group of users.
 
 
-\section{Clustering Users}
+\section{Defining one-day flies}
 
 As shown by several studies~\cite{yang2014sparrows}, Q\&A platforms are
 composed by users with different activity behaviors, which closely follow a
@@ -149,26 +134,28 @@ contributes to fewer parts of the content; and a set (the largest) of users
 contributes very little to nothing.
 
 We start our investigation by quantifying the result of this community dynamics
-in SO and use it to cluster users. We consider the SO data dump provided for the MSR Challenge
-2015~\cite{MSRChallenge2015} and we analyze both user activity
-(based on number of posts) and user reputation (based on the score obtained in
-the gamification mechanism in place on SO~\cite{anderson2013steering}).
-We find that 75\% of the users made a maximum of two posts, while the most
-prolific user had 30.043 posts. Similarly, 60\% (2.063.174) of the users had a
-reputation of one, the third quartile is 13, and the maximum value is 709.269.
-This is in line with general trends on Q\&A platforms.
+in SO and use it to cluster users and define \odf. We consider the SO data dump
+provided for the MSR Challenge 2015~\cite{MSRChallenge2015} and we analyze both
+user activity (based on number of posts) and user reputation (based on the
+score obtained in the gamification mechanism in place on
+SO~\cite{anderson2013steering}).  We find that 75\% of the users made a maximum
+of two posts, while the most prolific user had 30.043 posts. Similarly, 60\%
+(2.063.174) of the users had a reputation of one, the third quartile is 13, and
+the maximum value is 709.269.  This is in line with general trends on Q\&A
+platforms.
 
 We then apply clustering to users based on their reputation, using k-means
-theory. \Cref{kmeans_clustering} shows how these clusters are averagely placed
-in terms of posts and reputation. The group that is the target of this paper
-(\ie \emph{one-day flyes}) is the one on the bottom-left of the plot and
-consists of $3.469.897$ users. The medium active user group is significantly
-smaller and only contains $3.012$ users with an average reputation of $38.000$.
-The group with the most reputation is by far the smallest, and only contains
-$186$ users. The average reputation of this group is then very high (almost
-$200.000$). We use this way of clustering for the subsequent parts of this
-work.
+theory; \Cref{kmeans_clustering} shows how these clusters are averagely placed
+in terms of posts and reputation. The largest group of users is placed in the
+bottom-left of the plot and comprises 3.469.897 users; the
+medium active user group is significantly smaller and only contains 3.012 users
+with an average reputation of 38.000;  the group with the most reputation is by
+far the smallest, and only contains 186 users. The average reputation of this
+group is then very high (almost 200.000).
 
+With this information, we define \odf as users who posted a maximum of one post
+in SO, thus covering both low activity and low reputation. This set comprises
+\AB{X (Y\%)} users. 
 
 \begin{figure}[h]
  \includegraphics[width=\columnwidth]{clustering.png}
@@ -177,200 +164,140 @@ work.
 \end{figure}
 
 
-\section{Initial Assumptions} \label{InitialAssumptions}
+\section{Experiment}
 
-Before conducting the actual research, a number of assumptions was made. These
-assumptions formed the base for the research questions we try to answer.
+We conduct an experiment to quantitatively test different hypotheses, expressed
+as research questions on what may characterize \odf with respect to other users
+of SO. In the experiment we use the complete SO MSR Challenge
+dump~\cite{MSRChallenge2015}, imported into a MSSQL database through a
+multithreaded data loader we implemented.  For the actual querying, statistical
+analysis, and plotting of the data we use a mixture of Ruby (especially to mine
+additional data), C\# (to query the data), and R (to perform statistical
+analysis and generate plots).  In the following we describe each hypothesis,
+with the intuition behind it, the research method we used to test it, and the
+results.
 
-One of the earliest assumptions, which is not tested, was that the group with
-largest number of users which are not active on the site at all, consists of
-so-called \textit{newbies}. These were more likely to not understand how the
-community of StackOverflow works, and may ask trivial questions which are not
-suitable for the level of expertise StackOverflow aims for.
+\subsection{Duplicate questions}
 
-% Assumption of duplicate questions
-More testable assumptions were also made. Many users which would register on
+\textbf{Intuition.} New users who register on
 the website could, because of their unfamiliarity with the system, ask
-questions which had been asked previously. These questions are quickly flagged
-by the community as \textit{duplicate}. However this may be the appropriate
-action for the community as a whole, it can be extremely discouraging for the
-user which posted the question. Our research question is then: \textit{Are
-users which have posted only one question more likely to have created questions
-which are marked as duplicates}.
+questions that have been asked previously. These questions would be flagged
+by the community as \textit{duplicate}. Although this may be the appropriate
+action for the community as a whole, it could be extremely discouraging for the
+user which posted the question, thus inducing to not post anymore. 
 
-% Assumption of uncommon tags
-It may also be the case that these users got discouraged due to some other
-reason, such as asking questions about uncommon topics. In case their question
-was regarding a topic with hardly any experts on the StackOverflow platform,
-the user again can get discouraged by the lack of comments or answers to guide
-them into the right direction. However, simply parsing the content of the
-question is not sufficient. In order to be found by possible experts, it is
-also required for users to use the correct tags for their question. Otherwise,
-the question might simply get lost in enormous question set of StackOverflow.
-This gives the following research question on this topic: \textit{Are users
-which have posted only one question more likely to have posted questions with
-uncommon tags}.
+\textbf{RQ1:} Are \odf more likely to create questions marked as duplicates?
 
-% Assumption of deletions
-Another possible explanation for the large number of users with a low question
+\textbf{Research method.} To answer this research question, we compare the
+percentage of duplicate questions  between all users and \odf. To do so, we
+extract questions asked by \odf and count those marked as duplicate by checking
+on  LinkTypeId in the PostLinks table; then we do the same for all questions in
+the SO data dump. This holds because the total amount of questions asked by
+one-day flies is less than $8\%$ of the complete question set. After retrieving
+these results a simple comparison should show whether one day flies post more
+duplicate questions in comparison to the complete user base.
+
+\textbf{Results.} The total amount of questions asked by \odf is about 8\%. The
+number of duplicate questions is surprisingly low for both groups. One could
+expect that this would be high on a public Q\&A community where a large
+percentage of the users is unfamiliar with platform. However, only $2.2\%$ of
+the one-day flies questions is marked as a duplicate. Meanwhile, this
+percentage increases to $2.9\%$ for the regular users. We found this
+surprising, since we expected regular users to be more familiar with the
+platform and its search functionality. Based on these results, \odf are not
+more likely to create duplicate questions than regular users, but slightly
+less.
+
+
+\subsection{Uncommon tags}
+
+\textbf{Intuition.} The topic of a question in SO is commonly translated into
+tags, which make it easier for experts to find questions they could answer.
+Users who post questions regarding a topic with hardly any experts on the SO
+platform can get discouraged by the lack of comments or answers to guide them
+into the right direction. This types of topics would be reflected by uncommon
+tags accompanying the questions. 
+ 
+\textbf{RQ2:} Are \odf more likely to post questions with uncommon tags?
+ 
+\textbf{Research method.} Correa and Sureka found over $3.300$ tags that only
+occur in questions of quality far below StackOverflow
+standards~\cite{correa2014chaff}. The answer to our research question is
+inspired by their findings, as similar results might be found. We analyze the
+top $50$ most popular tags given by \odf questions in comparison to the top
+$50$ tags given in all questions in SO. This should give enough insight in the
+most popular tags and the existence of a popular uncommon topic among \odf.
+
+\textbf{Results.} Surprisingly the top-5 tags of both \odf and regular users
+are identical (although ordered different). Although there are a few tags that
+are specific to \odf, most of them is very similar. Based on these results, the
+answer to our research question is negative. 
+
+\subsection{Deleted questions}
+
+\textbf{Intuition.} Another possible explanation for the large number of users with a low question
 count can also be found in deletions. Users themselves can delete questions
-after posting them, and so can the community's moderators. This can have quite
+after posting them, and so can the moderators in the community. This can have quite
 an impact. As studied in \cite{correa2014chaff}, deleted questions usually are
 of a very low quality (the quality is considered low compared to the
-expectation of the StackOverflow community). Users unfamiliar with the ethos of
+expectation of the SO community). Users unfamiliar with the ethos of
 StackOverflow may inadvertently post such questions, only later realizing these
-do not belong there, and be deleted (or be deleted by moderators). This gives
-rise to the following research question: \textit{Are users which have posted
-only one questions more likely to have their posts removed (either themselves
-or by a moderator / community)}.
+do not belong there, and be deleted (or be deleted by moderators). 
+ 
+\textbf{RQ3:} Are \odf more likely to have their posts removed (either by themselves
+or by a moderator)?
+ 
+\textbf{Research method.} The number of deletions is not directly obtainable from the database dump as
+provided by StackOverflow: The only way to know whether a question on the data
+dump has been eventually removed is to check its online existence on the SO
+website. Due to our resources we could not check each question in the dump
+against the website, so we use random sampling. We select two samples of
+150.000 questions: One for \odf and one for people with a high post count
+\AB{how high? Based on what?}. For each of these sets, we fetched the
+corresponding SO page and parsed its DOM structure. This allowed us to extract whether the
+question was deleted, or possibly closed.
 
-% Assumption of less views
-Additionally it may be the case the user question was not viewed as much as
+\textbf{Results.} The number of deleted questions for \odf was $15.4\%$,
+whereas it was $10.9\%$ for the high post count users. However, it cannot
+easily be determined what the reason for deletion was. As explained in
+\cite{correa2014chaff}, there are several reasons for a question to be deleted.
+Without additional information, we cannot soundly determine whether this can be 
+a factor in the user participation. Therefore further investigation
+would be necessary to give a more complete answer to this question.
+ 
+The same analysis also gave interesting insights in the number of closed posts.
+For both groups, the ratio of closed posts is surprisingly low: $0.92\%$ for
+\odf and $0.76\%$ for high post count users. Questions can be closed
+for various reasons, such as being a duplicate or for being off-topic. Closed
+questions may be improved or deleted later on. However, the difference between
+the number is quite low, thus we can negatively answer the research question
+one considering closed posts. 
+
+
+
+\subsection{View counts}
+
+\textbf{Intuition.}Additionally it may be the case the user question was not viewed as much as
 they had anticipated, resulting in fewer good answers. It may be the case their
 question was listed lower due to their lack of reputation, or simply got lost
 in the list of questions. Apart from that, it is also possible that questions
 from people with no post history simply get opened less often, resulting in
 lower quality answers. Since a low view count can also, to some extent,
 discourage the question askers, since he or she may feel neglected by the
-community. The research question following from the above yields the following:
-\textit{Are users which have posted only one question more likely to attract
-less views to the question he or she posted}.
-
-% Assumption of unanswered questions
-The final assumption that was made is that new users simply got let down by the
-community: they asked a question which did not violate any of the StackOverflow
-rules, but did not receive a (satisfactory) answer anyway. This would probably
-the most discouraging situation, since the user did not do anything wrong, but
-did not receive help due to aspects out of his or her control. That might cause
-them to lose the confidence in the community itself. This yields the following
-research question: \textit{Are users which have posted only one question more
-likely to have received no answer to their original question}. 
-
-\section{Methodology} \label{Methodology}
-
-In this section we describe the methodology used to gain answers on our
-research questions which we specified in the section \ref{InitialAssumptions}.
-
-\subsection{Processing the data}
-
-The data used was made available by StackOverflow itself and also used for the
-2014 MSRChallenge \cite{MSRChallenge2015}. The export consisted of the
-(filtered) data of several key tables of the StackOverflow website. The data
-was formatted in XML files, which makes it hard to query directly on the data.
-This is why the decision was made to implement a multithreaded data loader
-which stored the XML data into a MSSQL database. Although the process took two
-days to complete, this proved to be worth the effort: it allowed to do large
-analysis on the entire data set instead of restricting the analysis to subsets.
-
-For the actual querying, statistical analysis, and plotting of the data a
-mixture of Ruby, C\#, and R was used. Whereas Ruby was used for mining
-additional data,  both C\# and R showed their value in querying the data and
-performing statistical analysis. In the end R was used to generate any plots
-which were able to shed more light on the data.
-
-
-\subsection{Evaluation of Duplicate questions}
-In order to answer the research question \textit{Are users which have posted
-only one question more likely to have created questions which are marked as
-duplicates}, a comparison between percentage of duplicate questions  between
-all users and one-day flies should give similar results. Thus the methodology
-is to first find all users with only one question asked, then check whether the
-question is marked as duplicate (by checking on  LinkTypeId in the PostLinks
-table) and do the same for all questions in the StackOverflow data. This holds
-because the total amount of questions asked by one-day flies is less than $8\%$
-of the complete question set. After retrieving these results a simple
-comparison should show whether one day flies post more duplicate questions in
-comparison to the complete user base.
-
-\subsection{Evaluation of Uncommon tags}
-%short recal of the assumption followed by a method to verify this assumption
-In \cite{correa2014chaff} researchers were able to find over $3.300$ tags that
-only occur in questions of quality far below StackOverflow standards. The
-research question \textit{Are users which have posted only one question more
-likely to have posted questions with uncommon tags} is based on these findings,
-as similar results might be found. The methodology for answering of this
-research question is to look at top $50$ most popular tags given to one-day fly
-questions in comparison to the top $50$ tags given in all questions in Stack
-Overflow. This should give enough insight in the most popular tags and the
-existence of a popular uncommon topic among one-day flies.
-
-\subsection{Evaluation of deletions}
-%short recal of the assumption followed by a method to verify this assumption
-
-The number of deletions is not directly obtainable from the database dump as
-provided by StackOverflow. Therefore two sample sets were taken, with a size of
-$150.000$; one for people with a low post count, and one for people with a high
-post count. For each of these sets, the corresponding StackOverflow page was
-fetched, and its DOM structure was parsed. This allowed to extract whether the
-question was deleted, or possibly closed.
-
-\subsection{Evaluation of less views}
-%short recal of the assumption followed by a method to verify this assumption
-It might be possible that one-day flies simply have received less views on
+community. 
+ 
+\textbf{RQ4:}Are users which have posted only one question more likely to attract
+less views to the question he or she posted
+ 
+\textbf{Research method.} It might be possible that one-day flies simply have received less views on
 their posts.  In order to correctly determine this, data set was assembled with
 a distinction between one-day-flies and regular users. To examine the results,
 it might be useful to eliminate the highest viewed questions and the least
 viewed questions  from the data set. For this, we select the percentages of
 5\%, 10\%, and 20\%. Based o the results with exclusion of these 5\%, 10\% and
-20\% we can answer the research question \textit{Are which have posted only one
-question more likely to attract less views to the question he or she have
-posted}.
+20\% we can answer the research question. 
 
-
-\subsection{Evaluation of unanswered questions}
-%short recal of the assumption followed by a method to verify this assumption
-
-As stated earlier, it may be possible for one-day-flies that their questions
-are simply not answered that often (especially compared to veteran community
-members). To model this, two sets were taken. The set containing the questions
-for the one-day-flies had a size of $1.016.696$, whereas the set containing the
-questions for the more active users consisted of $6.578.818$ questions.
-
-\section{Results}
-
-In this section we present the results of the evaluation of each research
-question as described in section \ref{Methodology}
-
-\subsection{Duplicate questions}
-
-The number of duplicate questions is surprisingly low. One could expect that
-this would be high on a public Q\&A community where a large percentage of the
-users is unfamiliar with platform. However, only $2.2\%$ of the one-day flies
-questions is marked as a duplicate. Meanwhile, this percentage increases to
-$2.9\%$ for the regular users. This would be surprising, since one can assume
-that regular users are more familiar with the platform and its search
-functionality. Based on this data we can say that the answer to the research
-question \textit{Are users which have posted only one question more likely to
-have created questions which are marked as duplicates} is no.
-
-\subsection{Uncommon tags}
-
-Surprisingly enough the top-5 tags of both one-day flies and regular users are
-identical (although ordered different). Although there are a number of tags
-which are specific to one-day flies, a large number of them is very
-similar.This allows us to answer the research question \textit{Are users which
-have posted only one question more likely to have posted questions with
-uncommon tags}. with no.
-
-\subsection{Deleted questions}
-As it turned out, the number of deleted questions for low post count users was
-$15.4\%$, whereas it was $10.9\%$ for the high post count users. However, it
-cannot easily be determined what the reason for deletion was. As explained in
-\cite{correa2014chaff}, there are several reasons for a question to be deleted.
-Without additional information, more research is needed to determine whether
-this can be a factor in the user participation. This research question
-therefore can not yet be answered.
-
-The same analysis also gave interesting insights in the number of closed posts.
-For both groups, this turned out to be surprisingly low: $0.92\%$ for low post
-count users, and $0.76\%$ for high post count users. Questions can be closed
-for various reasons, such as being a duplicate or for being off-topic. Closed
-questions may be improved or deleted later on. However, the difference between
-the number is quite low , which allows us to answer the research question
-\textit{Do one-day flies more often have their questions removed?} with no.
-
-\subsection{View counts}
-As it turns out, both groups have an average view count of around $190$ (for
+\textbf{Results.}As it turns out, both groups have an average view count of around $190$ (for
 one-day-flies this was $198$, for regular users $187$). However, the view count
 cannot be used only to determine this, since the standard deviation for these
 groups was quite high (respectively $400$ for one-day-flies, but over $1.000$
@@ -390,9 +317,26 @@ latter group is actually lower. The research question \textit{Are users which
 have posted only one question more likely to attract less views to the question
 he or she have posted} is therefore no.
 
+
 \subsection{Unanswered questions}
 
-Based on the data there seems to a difference between the two user groups. The
+\textbf{Intuition.}The final assumption that was made is that new users simply got let down by the
+community: they asked a question which did not violate any of the StackOverflow
+rules, but did not receive a (satisfactory) answer anyway. This would probably
+the most discouraging situation, since the user did not do anything wrong, but
+did not receive help due to aspects out of his or her control. That might cause
+them to lose the confidence in the community itself. 
+ 
+\textbf{RQ5:}Are users which have posted only one question more
+likely to have received no answer to their original question
+ 
+\textbf{Research method.} As stated earlier, it may be possible for one-day-flies that their questions
+are simply not answered that often (especially compared to veteran community
+members). To model this, two sets were taken. The set containing the questions
+for the one-day-flies had a size of $1.016.696$, whereas the set containing the
+questions for the more active users consisted of $6.578.818$ questions.
+
+\textbf{Results.} Based on the data there seems to a difference between the two user groups. The
 group of one-day-flies has a larger percentage of unanswered questions: $17\%$
 compared to just $10\%$ for the group which has a higher post count. Here we
 see a  difference between the two groups. It might very well be the case user
@@ -402,6 +346,7 @@ dataset is only 7\% we can answer the question \textit{Are users which have
 posted only one question more likely to have received no answer to their
 original question} with yes, but can argue that this is only a very slight
 difference, thus does not indicate the reason why one becomes a one-day fly.
+
 
 
 \section{Qualitative research}\label{QualitativeResearch}
