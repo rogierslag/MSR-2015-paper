@@ -139,73 +139,39 @@ SO~\cite{yang2014sparrows}; our work complements theirs by considering a
 different group of users.
 
 
-\section{Exploratory Data Analysis}
+\section{Clustering Users}
 
-% How is the stackoverflow data structured, how are the distributions of
-% entities
-For this analysis, the StackOverflow data as provided by the 2014 MSR Challenge
-was used. This data was then preprocessed and saved to a MS-SQL server. This
-allowed for rapid processing, due to which large parts of the analysis could be
-done on the entire data set.
+As shown by several studies~\cite{yang2014sparrows}, Q\&A platforms are
+composed by users with different activity behaviors, which closely follow a
+power law distribution: A small set of very highly active users contributes
+to the vast majority of the produced content; a larger set of less active users
+contributes to fewer parts of the content; and a set (the largest) of users
+contributes very little to nothing.
 
-After this preprocessing step was completed an exploratory analysis was done on
-the data set. Since StackOverflow is a regular Q\&A website, focused on
-programming languages, there was a suspicion it would adhere to general
-community dynamics specifics. An indicator of this would be a large number of
-inactive users, a small set of users which are more active, and a very small
-set of very active users.
+We start our investigation by quantifying the result of this community dynamics
+in SO and use it to cluster users. We consider the SO data dump provided for the MSR Challenge
+2015~\cite{MSRChallenge2015} and we analyze both user activity
+(based on number of posts) and user reputation (based on the score obtained in
+the gamification mechanism in place on SO~\cite{anderson2013steering}).
+We find that 75\% of the users made a maximum of two posts, while the most
+prolific user had 30.043 posts. Similarly, 60\% (2.063.174) of the users had a
+reputation of one, the third quartile is 13, and the maximum value is 709.269.
+This is in line with general trends on Q\&A platforms.
 
-To test this, clustering of several user groups was required. Even though  this
-can be done using several aspects, the number of posts is for most communities
-applicable, as this is a direct measure for contributions to the community.
-Moreover StackOverflow has a special reputation system, which gamifies the
-platform. The reputation is acquired by users through the system and reflects
-how the contributions of people are received by the community. Using the
-reputation points earned by the users, they can be classified into several
-groups. Based  on general community dynamics, a clustering in three groups
-seemed appropriate, as this would result in inactive (or one-day flies), active
-and very active user groups.
+We then apply clustering to users based on their reputation, using k-means
+theory. \Cref{kmeans_clustering} shows how these clusters are averagely placed
+in terms of posts and reputation. The group that is the target of this paper
+(\ie \emph{one-day flyes}) is the one on the bottom-left of the plot and
+consists of $3.469.897$ users. The medium active user group is significantly
+smaller and only contains $3.012$ users with an average reputation of $38.000$.
+The group with the most reputation is by far the smallest, and only contains
+$186$ users. The average reputation of this group is then very high (almost
+$200.000$). We use this way of clustering for the subsequent parts of this
+work.
 
-In the dataset we got from StackOverflow on september 26th in 2014, a total of
-2.063.174 users had a reputation of one, whilst the total amount of users of
-StackOverflow is 3.473.095.This causes the median to  equal to one, whereas the
-third quartile is just $13$. Compared to the maximum value of $709.269$ it is
-safe to conclude that a lot of users do not actively participate in the
-community, either by asking questions or proposing answers.
-
-This can also be seen in the analysis of the number of posts a user made.
-$75\%$ of the people has made a maximum of two posts. Again here the maximum is
-shifted towards the other end; the user with the most posts has acquired
-$30.043$ posts on the website. It therefore seems a large majority of the users
-has no need nor wish to participate more in the community.
-
-When the clustering into three groups is completed using k-means theory (see
-figure \ref{kmeans_clustering}), three clusters are obtained, based on the
-reputation they achieved. The group of what we refer to as one-day-flies is the
-largest, with a total of $3.469.897$ users. The medium active user group is
-significantly smaller and only contains $3.012$ users with an average
-reputation of $38.000$. The group with the most reputation is by far the
-smallest, and only contains $186$ users. The average reputation of this group
-is then very high (almost $200.000$).
-
-When correlated with the number of posts or comments, it appears there is a
-linear relation between those on one hand and reputation on the other hand. The
-center groups of the clustering almost form one straight line when plotted.
 
 \begin{figure}[h]
- \includegraphics[width=9cm]{answers_vs_rep.png}
- \caption{The number of posts a user made compared to the reputation she gained}
- \label{answers_vs_rep}
-\end{figure}
-
-\begin{figure}[h]
- \includegraphics[width=9cm]{comments_vs_rep.png}
- \caption{The number of comments a user made compared to the reputation she gained}
- \label{comments_vs_rep}
-\end{figure}
-
-\begin{figure}[h]
- \includegraphics[width=9cm]{clustering.png}
+ \includegraphics[width=\columnwidth]{clustering.png}
  \caption{The clustering of the user groups}
  \label{kmeans_clustering}
 \end{figure}
