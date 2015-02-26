@@ -63,8 +63,8 @@ Alberto Bacchelli\IEEEauthorrefmark{3}}
 
 
 StackOverflow (SO) is a popular question and answers (Q\&A) platform related to
-software development. An interesting characteristic of SO is that approximately
-75\% of its users makes only one contribution to the platform in total.
+software development. An interesting characteristic of SO is that about 
+half of its users makes only one contribution to the platform in total.
 
 In this work, we study this group of users, which we call \odf, and we 
 investigate why they do not continue to contribute to the platform, despite its
@@ -138,24 +138,23 @@ in SO and use it to cluster users and define \odf. We consider the SO data dump
 provided for the MSR Challenge 2015~\cite{MSRChallenge2015} and we analyze both
 user activity (based on number of posts) and user reputation (based on the
 score obtained in the gamification mechanism in place on
-SO~\cite{anderson2013steering}).  We find that 75\% of the users made a maximum
-of two posts, while the most prolific user had 30.043 posts. Similarly, 60\%
+SO~\cite{anderson2013steering}).  We find that 47\% of the users made a maximum
+of one post, while the most prolific user had 30.043 posts. Similarly, 60\%
 (2.063.174) of the users had a reputation of one, the third quartile is 13, and
 the maximum value is 709.269.  This is in line with general trends on Q\&A
 platforms.
 
-We then apply clustering to users based on their reputation, using k-means
-theory; \Cref{kmeans_clustering} shows how these clusters are averagely placed
-in terms of posts and reputation. The largest group of users is placed in the
-bottom-left of the plot and comprises 3.469.897 users; the
-medium active user group is significantly smaller and only contains 3.012 users
-with an average reputation of 38.000;  the group with the most reputation is by
-far the smallest, and only contains 186 users. The average reputation of this
-group is then very high (almost 200.000).
+We then apply clustering to users based on their reputation, using k-means;
+\Cref{kmeans_clustering} shows how these clusters are averagely placed in terms
+of posts and reputation. The largest group of users (3.469.897) is placed in
+the bottom-left of the plot; the medium active user group is significantly
+smaller (3.012 users) with an average reputation of 38.000;  the group with the
+most reputation is by far the smallest (186 users) with a very high average
+reputation of ca. 200.000.
 
-With this information, we define \odf as users who posted a maximum of one post
-in SO, thus covering both low activity and low reputation. This set comprises
-\AB{X (Y\%)} users. 
+With this information, we define \odf as users who posted a maximum of one
+question in SO, thus covering both low activity and low reputation. This set
+comprises 1.622.688 users, \ie 47\% of the user base. 
 
 \begin{figure}[h]
  \includegraphics[width=\columnwidth]{clustering.png}
@@ -235,123 +234,107 @@ answer to our research question is negative.
 
 \subsection{Deleted questions}
 
-\textbf{Intuition.} Another possible explanation for the large number of users with a low question
-count can also be found in deletions. Users themselves can delete questions
-after posting them, and so can the moderators in the community. This can have quite
-an impact. As studied in \cite{correa2014chaff}, deleted questions usually are
-of a very low quality (the quality is considered low compared to the
-expectation of the SO community). Users unfamiliar with the ethos of
-StackOverflow may inadvertently post such questions, only later realizing these
-do not belong there, and be deleted (or be deleted by moderators). 
+\textbf{Intuition.} Another possible explanation for the large number of users
+with a low question count can also be found in deletions. Users themselves can
+delete questions after posting them, and so can the moderators in the
+community. This can have quite an impact. As studied in \cite{correa2014chaff},
+deleted questions usually are of a very low quality (the quality is considered
+low compared to the expectation of the SO community). Users unfamiliar with the
+ethos of StackOverflow may inadvertently post such questions, only later
+realizing these do not belong there, and be deleted (or be deleted by
+moderators). 
  
-\textbf{RQ3:} Are \odf more likely to have their posts removed (either by themselves
-or by a moderator)?
+\textbf{RQ3:} Are \odf more likely to have their posts removed (either by
+themselves or by a moderator)?
  
-\textbf{Research method.} The number of deletions is not directly obtainable from the database dump as
-provided by StackOverflow: The only way to know whether a question on the data
-dump has been eventually removed is to check its online existence on the SO
-website. Due to our resources we could not check each question in the dump
-against the website, so we use random sampling. We select two samples of
-150.000 questions: One for \odf and one for people with a high post count
-\AB{how high? Based on what?}. For each of these sets, we fetched the
-corresponding SO page and parsed its DOM structure. This allowed us to extract whether the
-question was deleted, or possibly closed.
+\textbf{Research method.} The number of deletions is not directly obtainable
+from the database dump as provided by StackOverflow: The only way to know
+whether a question on the data dump has been eventually removed is to check its
+online existence on the SO website. Due to our resources we could not check
+each question in the dump against the website, so we use random sampling. We
+select two samples of 150.000 questions: One for \odf and one for people with a
+high post count \AB{how high? Based on what?}. For each of these sets, we
+fetched the corresponding SO page and parsed its DOM structure. This allowed us
+to extract whether the question was deleted, or possibly closed.
 
 \textbf{Results.} The number of deleted questions for \odf was $15.4\%$,
 whereas it was $10.9\%$ for the high post count users. However, it cannot
 easily be determined what the reason for deletion was. As explained in
 \cite{correa2014chaff}, there are several reasons for a question to be deleted.
-Without additional information, we cannot soundly determine whether this can be 
-a factor in the user participation. Therefore further investigation
-would be necessary to give a more complete answer to this question.
- 
+Without additional information we cannot soundly determine whether this can be
+a factor in the user participation. Therefore further investigation would be
+necessary to give a more complete answer to this question.
 The same analysis also gave interesting insights in the number of closed posts.
 For both groups, the ratio of closed posts is surprisingly low: $0.92\%$ for
-\odf and $0.76\%$ for high post count users. Questions can be closed
-for various reasons, such as being a duplicate or for being off-topic. Closed
+\odf and $0.76\%$ for high post count users. Questions can be closed for
+various reasons, such as being a duplicate or for being off-topic. Closed
 questions may be improved or deleted later on. However, the difference between
 the number is quite low, thus we can negatively answer the research question
 one considering closed posts. 
 
 
 
-\subsection{View counts}
+\subsection{View count}
 
-\textbf{Intuition.}Additionally it may be the case the user question was not viewed as much as
-they had anticipated, resulting in fewer good answers. It may be the case their
-question was listed lower due to their lack of reputation, or simply got lost
-in the list of questions. Apart from that, it is also possible that questions
-from people with no post history simply get opened less often, resulting in
-lower quality answers. Since a low view count can also, to some extent,
-discourage the question askers, since he or she may feel neglected by the
-community. 
+\textbf{Intuition.} It is possible that users' questions are not
+viewed as much as they had anticipated, resulting in fewer good answers. It may
+be the case their question was listed lower due to their lack of reputation, or
+simply got lost in the list of questions. Apart from that, it is also possible
+that questions from people with no post history simply get opened less often,
+resulting in lower quality answers. A low view count can discourage the 
+question askers, since they may feel neglected by the community. 
  
-\textbf{RQ4:}Are users which have posted only one question more likely to attract
-less views to the question he or she posted
+\textbf{RQ4:} Are \odf more likely to attract less views? 
  
-\textbf{Research method.} It might be possible that one-day flies simply have received less views on
-their posts.  In order to correctly determine this, data set was assembled with
-a distinction between one-day-flies and regular users. To examine the results,
-it might be useful to eliminate the highest viewed questions and the least
-viewed questions  from the data set. For this, we select the percentages of
-5\%, 10\%, and 20\%. Based o the results with exclusion of these 5\%, 10\% and
-20\% we can answer the research question. 
-
-\textbf{Results.}As it turns out, both groups have an average view count of around $190$ (for
-one-day-flies this was $198$, for regular users $187$). However, the view count
-cannot be used only to determine this, since the standard deviation for these
-groups was quite high (respectively $400$ for one-day-flies, but over $1.000$
-for regular users). To compensate for these effects, the dataset was modified
-to only include the posts which fitted into the $10\%$ to $90\%$ range of the
-view counts, and the results were rerun.
-
+\textbf{Research method.} To answer our research question, we distinguish
+between \odf and all users. To examine the results,
+we eliminate the highest viewed questions and the least
+viewed questions  from the data set: We consider different cut-off percentages
+(namely 5\%, 10\%, and 20\%) and compute separate results. 
+ 
+\textbf{Results.} Both groups have an average view count of around $190$ ($198$
+for \odf, and $187$ for regular users), but the standard deviation is quite
+high ($400$ for \odf, over $1.000$ for regular users). To compensate for these
+effects, the dataset was modified to only include the posts which fitted into
+the $10\%$ to $90\%$ range of the view counts, and the results were rerun.
 Using this reduced data set, with the extremes removed, a similar result is
-obtained, with an average view count of $127$ for one-day-flies and $113$ for
-non-one-day-flies. The standard deviations dropped a lot as well, to only $100$
+obtained, with an average view count of $127$ for \odf and $113$ for regular
+users. The standard deviations dropped a lot as well, to only $100$
 respectively $93$. When the analysis is repeated by eliminating the extreme
-$5\%$ of $20\%$, similar results remain.
-
-Therefore we conclude that the posts of one-day-flies are actually not viewed
-less than those of non-one-day-flies, since it any case the view count of the
-latter group is actually lower. The research question \textit{Are users which
-have posted only one question more likely to attract less views to the question
-he or she have posted} is therefore no.
+$5\%$ of $20\%$, similar results remain. Therefore we conclude that the posts
+of one-day-flies are actually not viewed less than those of non-one-day-flies,
+since it any case the view count of the latter group is actually lower. 
 
 
 \subsection{Unanswered questions}
 
-\textbf{Intuition.}The final assumption that was made is that new users simply got let down by the
-community: they asked a question which did not violate any of the StackOverflow
-rules, but did not receive a (satisfactory) answer anyway. This would probably
-the most discouraging situation, since the user did not do anything wrong, but
-did not receive help due to aspects out of his or her control. That might cause
-them to lose the confidence in the community itself. 
+\textbf{Intuition.} New users simply got let down by the community: They asked
+a question which did not violate any of the StackOverflow rules, but did not
+receive a (satisfactory) answer anyway. This would probably the most
+discouraging situation, since the user did not receive help due to aspects out
+of his or her control. That might cause them to lose the confidence in the
+community itself. 
  
-\textbf{RQ5:}Are users which have posted only one question more
-likely to have received no answer to their original question
+\textbf{RQ5:} Are \odf more likely to receive no answer to their questions?
  
-\textbf{Research method.} As stated earlier, it may be possible for one-day-flies that their questions
-are simply not answered that often (especially compared to veteran community
-members). To model this, two sets were taken. The set containing the questions
-for the one-day-flies had a size of $1.016.696$, whereas the set containing the
-questions for the more active users consisted of $6.578.818$ questions.
+\textbf{Research method.} To answer our question, we compared the set of
+questions done by \odf to the set of questions done by other users.
 
-\textbf{Results.} Based on the data there seems to a difference between the two user groups. The
-group of one-day-flies has a larger percentage of unanswered questions: $17\%$
-compared to just $10\%$ for the group which has a higher post count. Here we
-see a  difference between the two groups. It might very well be the case user
-get demotivated because of this, especially if they saw other users receive
-answers to their posts much more often. Since this difference on the complete
-dataset is only 7\% we can answer the question \textit{Are users which have
-posted only one question more likely to have received no answer to their
-original question} with yes, but can argue that this is only a very slight
-difference, thus does not indicate the reason why one becomes a one-day fly.
+\textbf{Results.} Based on the data, we found the first non-negligible
+difference between the groups. \odf have a larger percentage of unanswered
+questions (\ie $17\%$) compared to the other group (\ie $10\%$). It could be
+that our intuition is correct and part of the \odf leave SO because they get
+demotivated by their questions left unanswered. Especially if they saw other
+users receive answers to their posts much more often. Since this difference on
+the complete dataset is only 7\% we can answer the our research question
+positively, but the difference is not large enough to account for the vast
+number of \odf.
 
 
 
 \section{Qualitative research}\label{QualitativeResearch}
-Since the results did not reveal a clear reason which explained the existence
-of one-day flies, we decided upon a small qualitative research to get new ideas
+Since the results did not reveal a clear reason that could completely account
+for the whole large number of \odf, we decided upon a small qualitative research to get new ideas
 and see if something was overlooked that can be found in the data itself rather
 easily.  For this the authors manually scanned through $50$ posts and their
 accepted answer, answering the following questions:
