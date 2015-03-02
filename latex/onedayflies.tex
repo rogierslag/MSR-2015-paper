@@ -32,6 +32,8 @@
 
 \newcommand\odf{\emph{one-day flies}\xspace}
 \newcommand\Odf{\emph{One-day flies}\xspace}
+\newcommand\ru{regular users\xspace}
+
 
 \tcbset{center title,center upper,fonttitle=\bfseries}
 
@@ -81,16 +83,16 @@ users to become more active, thus improving the platform.
 
 \section{Introduction}
 
-StackOverflow is a Q\&A platform and community on the Internet that focuses 
-primarily on programming related questions. SO has been gaining huge popularity during the last few years
-\cite{anderson2012discovering} and the availability of its data dump to the
-public has triggered numerous investigations (\eg
-\cite{treude2011programmers,barua2014developers,morrison2013age}). 
-Many studies on SO cover aspects related to users, such as their personalities
-\cite{bosu2013building}, their field of expertise, and on how they
-contribute \cite{movshovitz2013analysis}. Little is know, yet, about the 
-underlying structure of the StackOverflow community, in particular the 
-distribution of posts and reputation among users.
+StackOverflow is a Q\&A platform and community on the Internet that focuses
+primarily on programming related questions. SO has been gaining huge popularity
+during the last few years \cite{anderson2012discovering} and the availability
+of its data dump to the public has triggered numerous investigations (\eg
+\cite{treude2011programmers,barua2014developers,morrison2013age}).  Many
+studies on SO cover aspects related to users, such as their personalities
+\cite{bosu2013building}, their field of expertise, and on how they contribute
+\cite{movshovitz2013analysis}. Little is know, yet, about the underlying
+structure of the StackOverflow community, in particular the distribution of
+posts and reputation among users.
 
 In this paper, we try to start filling this gap by analyzing less active users,
 \ie those who post only once during their whole registration period.  To this
@@ -100,18 +102,17 @@ quantitatively characterize this set of users, which we call \odf, by
 contrasting them with more active participants.  Finally, we conduct an initial
 qualitative investigation to better understand what could induce these users to
 stop contributing.  Results show that many of our hypotheses of why users
-become \odf do not fully explain this phenomenon. We discuss aspects that
-emerged as good candidates for future evaluation.
+become \odf do not fully explain this phenomenon. We discuss aspects emerged as 
+candidates for future evaluation.
 
 
 
 \section{Related work}
 
-Several aspects of SO have already been investigated, such as how to
-build reputation \cite{bosu2013building} and how the reputation system
-encourages users to participate \cite{movshovitz2013analysis}. These studies 
-gave us insight in how the reputation system works and how this affects the user
-base. 
+Several aspects of SO have already been investigated, such as how to build
+reputation \cite{bosu2013building} and how the reputation system encourages
+users to participate \cite{movshovitz2013analysis}. These studies gave us
+insight in how the reputation system works and how this affects the user base. 
 Correa \& Sureka \cite{correa2014chaff} investigated the deletion of
 questions on SO; we use this as the basis for verifying some of our hypotheses.
 Bazelli \etal analyzed personality traits of SO
@@ -150,23 +151,23 @@ most reputation is by far the smallest (186 users) with a very high average
 reputation of ca. 200.000.
 
 With this information, we define \odf as users who posted a maximum of one
-question in SO, thus covering both low activity and low reputation. This set
-comprises 1.622.688 users, \ie 47\% of the user base. 
+question in SO, thus covering both low activity and low reputation. We also
+consider users that are registered for more than 6 months to avoid that
+recently registered users could bias the results. This set comprises 1.622.688
+users, \ie 47\% of the user base. 
 
 
 
 \section{Experiment}
 
 We conduct an experiment to quantitatively test different hypotheses, expressed
-as research questions on what may characterize \odf with respect to other users
-of SO. In the experiment we use the complete SO MSR Challenge
-dump~\cite{MSRChallenge2015}, imported into a MSSQL database through a
-multithreaded data loader we implemented.  For the actual querying, statistical
-analysis, and plotting of the data we use a mixture of Ruby (especially to mine
-additional data), C\# (to query the data), and R (to perform statistical
-analysis and generate plots).  In the following we describe each hypothesis,
-with the intuition behind it, the research method we used to test it, and the
-results.\\
+as research questions on what may characterize \odf. In the experiment we use
+the complete SO MSR Challenge dump~\cite{MSRChallenge2015}, imported into a
+MSSQL database. For the actual querying, statistical analysis, and plotting of
+the data we use a mixture of Ruby (especially to mine additional data), C\# (to
+query the data), and R (to perform statistical analysis and generate plots).
+In the following we describe each hypothesis, the intuition behind it, the
+research method we used to test it, and the results.\\
 
 \begin{tcolorbox}[size=fbox,title=RQ1: Duplicate Questions]
 Are \odf more likely to create questions eventually marked as duplicates?
@@ -180,24 +181,21 @@ action for the community as a whole, it could be extremely discouraging for the
 user which posted the question, thus inducing to not post anymore. 
 
 \textbf{Research method.} To answer this research question, we compare the
-percentage of duplicate questions  between all users and \odf. To do so, we
+percentage of duplicate questions  between and \odf and the other users
+(defined from now on as \emph{\ru}). To do so, we
 extract questions asked by \odf and count those marked as duplicate by checking
-on  LinkTypeId in the PostLinks table; then we do the same for all questions in
-the SO data dump. This holds because the total amount of questions asked by
-one-day flies is less than $8\%$ of the complete question set. After retrieving
-these results a simple comparison should show whether one day flies post more
-duplicate questions in comparison to the complete user base.
+on  LinkTypeId in the PostLinks table; then we do the same for questions asked
+by \ru. After retrieving these results we compare them.
 
 \textbf{Results.} The total amount of questions asked by \odf is about 8\%. The
 number of duplicate questions is surprisingly low for both groups. One could
 expect that this would be high on a public Q\&A community where a large
 percentage of the users is unfamiliar with platform. However, only $2.2\%$ of
-the one-day flies questions is marked as a duplicate. Meanwhile, this
-percentage increases to $2.9\%$ for the regular users. We found this
-surprising, since we expected regular users to be more familiar with the
-platform and its search functionality. Based on these results, \odf are not
-more likely to create duplicate questions than regular users, but slightly
-less.\\
+the one-day flies questions is marked as a duplicate. Surprisingly, this
+percentage increases to $2.9\%$ for \ru; we expected \ru to be more familiar
+with the platform and its search functionality. Based on these results, \odf
+are not more likely to create duplicate questions than regular users, but
+slightly less.\\
 
 
 \begin{tcolorbox}[size=fbox,title=RQ2: Uncommon Tags]
@@ -216,13 +214,13 @@ occur in questions of quality far below StackOverflow
 standards~\cite{correa2014chaff}. The answer to our research question is
 inspired by their findings, as similar results might be found. We analyze the
 top $50$ most popular tags given by \odf questions in comparison to the top
-$50$ tags given in all questions in SO. This should give enough insight in the
-most popular tags and the existence of a popular uncommon topic among \odf.
+$50$ tags given in all questions in SO. This to get insights on the
+most popular tags and any popular uncommon topics among \odf.
 
 \textbf{Results.} Surprisingly the top-5 tags of both \odf and regular users
 are identical (although ordered different). Although there are a few tags that
 are specific to \odf, most of them is very similar. Based on these results, the
-answer to our research question is negative.\\
+answer to our research question is negative.
 
 \begin{tcolorbox}[size=fbox,title=RQ3: Deleted Questions]
 Are \odf more likely to have their posts removed (either by
@@ -245,22 +243,21 @@ whether a question on the data dump has been eventually removed is to check its
 online existence on the SO website. Due to our resources we could not check
 each question in the dump against the website, so we use random sampling. We
 select two samples of 150.000 questions: One for \odf and one for people with a
-high post count \AB{how high? Based on what?}. For each of these sets, we
-fetched the corresponding SO page and parsed its DOM structure. This allowed us
-to extract whether the question was deleted, or possibly closed.
+high post count. %\AB{how high? Based on what?}
+For each of these sets, we got the SO page and parsed its DOM structure. This
+allowed us to extract whether the question was deleted, or possibly closed.
 
 \textbf{Results.} The number of deleted questions for \odf was $15.4\%$,
 whereas it was $10.9\%$ for the high post count users. However, it cannot
 easily be determined what the reason for deletion was. As explained in
 \cite{correa2014chaff}, there are several reasons for a question to be deleted.
-Without additional information we cannot soundly determine whether this can be
-a factor in the user participation. Therefore further investigation would be
+Therefore further investigation would be
 necessary to give a more complete answer to this question.  The same analysis
 also gave interesting insights in the number of closed posts.  For both groups,
 the ratio of closed posts is surprisingly low: $0.92\%$ for \odf and $0.76\%$
 for high post count users. Questions can be closed for various reasons, such as
 being a duplicate or for being off-topic. Closed questions may be improved or
-deleted later on. However, the difference is quite low, thus we can give a 
+deleted later on. The difference is low, thus we can give a 
 negative answer to the research question when considering closed posts.\\ 
 
 
@@ -268,10 +265,10 @@ negative answer to the research question when considering closed posts.\\
 Are \odf more likely to attract less views? 
 \end{tcolorbox}
 
-\textbf{Intuition.} It is possible that users' questions are not
+\textbf{Intuition.} Users' questions may be not
 viewed as much as they had anticipated, resulting in fewer good answers. It may
 be the case their question was listed lower due to their lack of reputation, or
-simply got lost in the list of questions. Apart from that, it is also possible
+simply got lost in the list of questions. It is also possible
 that questions from people with no post history simply get opened less often,
 resulting in lower quality answers. A low view count can discourage the 
 question askers, since they may feel neglected by the community. 
@@ -279,21 +276,19 @@ question askers, since they may feel neglected by the community.
 \textbf{Research method.} To answer our research question, we distinguish
 between \odf and all users. To examine the results,
 we eliminate the highest viewed questions and the least
-viewed questions  from the data set: We consider different cut-off percentages
-(namely 5\%, 10\%, and 20\%) and compute separate results. 
+viewed questions  from the data set: We consider different cut-offs
+(\ie 5\%, 10\%, and 20\%) and compute separate results. 
  
-\textbf{Results.} Both groups have an average view count of around $190$ ($198$
-for \odf, and $187$ for regular users), but the standard deviation is quite
-high ($400$ for \odf, over $1.000$ for regular users). To compensate for these
+\textbf{Results.} Both groups have an average view count of ca. $190$ ($198$
+for \odf, and $187$ for regular users), but the standard deviation is high
+($400$ for \odf, over $1.000$ for all). To compensate for these
 effects, the dataset was modified to only include the posts which fitted into
-the $10\%$ to $90\%$ range of the view counts, and the results were rerun.
-Using this reduced data set, with the extremes removed, a similar result is
-obtained, with an average view count of $127$ for \odf and $113$ for regular
-users. The standard deviations dropped a lot as well, to only $100$
+the $10\%$ to $90\%$ range of the view counts and the results were rerun.
+Using this reduced data set, with the extremes removed, we obtain a similar
+result, with an average view count of $127$ for \odf and $113$ for all. The standard deviations dropped a lot as well, to only $100$
 respectively $93$. When the analysis is repeated by eliminating the extreme
 $5\%$ of $20\%$, similar results remain. Therefore we conclude that the posts
-of one-day-flies are actually not viewed less than those of non-one-day-flies,
-since it any case the view count of the latter group is actually lower.\\
+of \odf are actually not viewed less.\\
 
 
 \begin{tcolorbox}[size=fbox,title=RQ5: Unanswered Questions]
@@ -315,103 +310,76 @@ difference between the groups. \odf have a larger percentage of unanswered
 questions (\ie $17\%$) compared to the other group (\ie $10\%$). It could be
 that our intuition is correct and part of the \odf leave SO because they get
 demotivated by their questions left unanswered. Especially if they saw other
-users receive answers to their posts much more often. Since this difference on
-the complete dataset is only 7\% we can answer the our research question
-positively, but the difference is not large enough to account for the vast
-number of \odf.
+users receive answers to their posts much more often. Since this difference 
+is only 7\% we can answer the our research question
+positively, but it is sufficient to account for the vast number of \odf.
 
 
 
-\section{Qualitative research}\label{QualitativeResearch}
+\section{Manual investigation}\label{QualitativeResearch}
 Since the results did not reveal a clear reason that could completely account
 for the whole large number of \odf, we decided upon a small qualitative 
 research to get new ideas and see if something was overlooked that can be found
 in the data. To this aim, we manually analyzed $50$ posts and their
-accepted answer, with an eye on the following questions:
+accepted answer. We found the following patterns:
+\begin{inparaenum}[(1)]
+\item $20$ questions and $19$ accepted answers contained code;
+\item $48$ answerers were friendly, $2$ were unfriendly;
+and \item $11$ times the answer was easily found by a search engine, the other
+$39$ times they tried to find a solution themselves.
+\end{inparaenum}
 
-\begin{enumerate}
-\item Does the question contain code?
-\item Does the accepted answer contain code?
-\item Does the question contain a clear explanation?
-\item Was the answerer friendly or unfriendly in his answer?
-\item Did the question asker put in enough effort (was the answer not easily
-found by using any search engine)?  
-\end{enumerate}
-
-After answering these questions the results for the sample where as follows:
-\newline
-\newline
-\begin{tabular}{ | l | p{8cm} | }
-\hline
-  1 & $20$ questions contained code \\
-\hline
-  2 & $19$ accepted answers contained code \\
-\hline
-  3 & All the $50$ questions contained an explanation \\
-\hline
-  4 & $48$ answerers where friendly, $2$ where unfriendly \\
-\hline
-  5 & $11$ times the answer was easily found by a search engine, the other $39$ times they tried to find a solution themselves \\
-\hline
-\end{tabular}
-\newline
-\newline
-
-The results of 1 and 2 show that over half the questions and accepted answers
+Pattern 1 shows that over half the questions and accepted answers
 did not contain code, even though the questions where programming related. Most
 of them where regarding versioning systems, or development methods (such as
-Agile or database systems).  However it still might be interesting to look at
-the code example quality as this seemed relatively poor in the sample the
-authors took.
-
-The result of 3 is not a surprise, however the results of 4 is interesting. Two
-answers where unfriendly, but still got accepted. This gives the idea for a new
-research question: Do one-day flies  not come back due to negative feedback? 
-
-The result of 5  gives the idea that askers are relatively ``lazy''. However,
-since the classification ``lazy'' is quite opinionated, this cannot be used as
-a direct research result. However the authors did find during this qualitative
-research was that a few questions where later answered by the question owner
-him/herself. This gave the idea that one-day flies might only use StackOverflow
-for self-documentation purposes. 
-
-To get a better insight in questions 1, 2 and 4: we did an automated search for
-this. For question 1 and 2 this was easily done using R. For question 4, a Ruby
-script with nielsen2011new \cite{nielsen2011new} was used to evaluate how
-friendly the answers and questions were on a scale of -4 (very unfriendly) to 4
-(very friendly). 
-
-For question 1, it turned out that for non one-day flies $65\%$ of the
-questions had code, and $58\%$ of the answers (over the set of all questions
-with an accepted answer). For one-day flies these numbers were $70\%$ and
-$65\%$ respectively. This indicates one day flies give and receive a bit more
+Agile or database systems). To get better insight on this pattern, we did an
+automated search and found that for non \odf $65\%$ of the
+questions had code and $58\%$ of the answers (over the set of all questions
+with an accepted answer). For \odf these numbers were $70\%$ and
+$65\%$, respectively. This indicates \odf give and receive a bit more
 code than the other users.
+During our manual analysis we found the code example to be of rather poor
+quality, we did not investigate this further, but future work could consider
+this aspect.
 
-To answer the friendliness, a random subset of $10000$ questions with an
-accepted answer was taken. It turned out that non one-day-flies questions had a
+We found pattern 2 is interesting: Two answers where unfriendly, but still got
+accepted. We investigated this further by using a Ruby
+script~\cite{nielsen2011new} to evaluate how friendly the answers and questions
+were on a scale of -4 (very unfriendly) to 4 (very friendly) on a larger
+($10.000$) subset of questions. Results showed that non \odf questions had a
 niceness of $0.079$, and the answers they received had a niceness of $0.059$.
 This indicates that both the questions and answers were mostly formal and
-professional, and on average slightly positive.
+professional, and on average slightly positive. For \odf, this was again a bit
+different: They had a question niceness of $0.196$ and received an answer with
+niceness $0.092$. Still the tone appears to be mostly formal and professional,
+but the underlying touch is a bit more positive.
 
-Again this was a bit different for one-day flies: they had a question niceness
-of $0.196$ and received an answer with niceness $0.092$. Still the tone appears
-to be mostly formal and professional, but the underlying touch tends to be a
-bit more positive.
+Pattern 3 gives the idea that askers are relatively ``lazy.'' However, since
+the classification ``lazy'' is quite opinionated, this cannot be used as a
+direct research result. However we found that a few questions where later
+answered by the question owner him/herself. This gave the idea that one-day
+flies might only use SO for self-documentation purposes. 
 
-\section{New Research Questions} \label{NewResearchQuestions}
+\section{Discussion} \label{NewResearchQuestions}
 
-Based on the work presented in the previous chapter, the authors formulated a
-number of new research questions. This might form the basis for future work
-regarding the participation of \textit{one-day-flies} on Q\&A communities such
-as StackOverflow.
+%\Cref{fig:finalresults} presents a summary of the results obtained by
+%analyzing statistically the features of \odf in contrast to regular users.
+
+
+
+The presented results are not conclusive about what could motivate the behavior
+of \odf. As indicated by the previous sections, there does not seem to be a clear reason
+within these statistics why \odf contribute less to the platform.  However, our
+results gave insights on some aspects that might be interesting venues for
+future work, we describe some of those in the following. 
 
 %Assumption of bad code examples
 \subsection{Code example quality}
 
 In general it seems the quality of the code examples in questions of
-one-day-flies is lower compared to the quality of users with a higher
-reputation. One-day-flies generally include too much code (by simply pasting
-all the code into the questions code block. This discourages users to form an
+\odf is lower compared to the quality of users with a higher
+reputation. \Odf generally include too much code (by simply pasting
+all the code into the questions code block). This discourages users to form an
 adequate explanation.
 
 Apart from that, the general code quality itself is lower as well. Code is
@@ -419,7 +387,7 @@ poorly modularized, which causes people to respond to those issues, before
 addressing the original problem of the question asker. He or she may then get
 irritated, since they receive feedback they simply are not ready for at that
 point in the learning process. The same goes for the people trying to figure
-out what the issue is: they need to wrap their mind around to some non-standard
+out what the issue is: They need to wrap their mind around to some non-standard
 principles used by others, which are (from their perspective) less easy to
 reason about.
 
@@ -430,7 +398,7 @@ As stated in the previous paragraph, it is often the case the StackOverflow
 community gives tips and advice to novices how certain problems should be
 structured. However, for the question asker this can be seen as negative
 feedback. It does not solve their problem, while it increases the work they
-have to do in order to solve the problem or even get community support.
+have to do to solve the problem or even get community support.
 
 Even without this feedback, the StackOverflow community has strict rules on the
 type of questions allowed on the platform. A quick search over time showed the
@@ -455,12 +423,12 @@ to see how a user would see this as a negative feedback from the community.
 %This section is written after writing the qualitative research section thus
 %doesn't have to be revised (only spell/grammar checked)
 \subsection{Self-answering}
-In section \ref{QualitativeResearch}  the authors found that some of the
-questions accepted answers where given by the authors of these questions. This
+In section \ref{QualitativeResearch}, we found that some of the
+questions accepted answers were given by the askers themselves. This
 could be done for documentation purposes, but also for attempting to gain
 reputation, while other answers might be better. However in order to explore
-this further, it is first interesting to evaluate whether one-day flies more
-often answer their own questions than non-one-day flies on StackOverflow.
+this further, it is first interesting to evaluate whether \odf answer their 
+own questions more often than \ru.
 
 A user does not get reputation for answering their own question (but they can
 get reputation if the answer is upvoted by others). Here there seems to be a
@@ -471,34 +439,36 @@ StackOverflow at that point (otherwise they likely would not have posted that
 answer). 
 
 \subsection{Everything can be found}
-During the research the authors had several discussions with other developers
-regarding this high amount of one-day flies. In most of these sessions
+During the research we had several discussions with software developers
+regarding this high amount of \odf. In most of these sessions
 developers said to never ask a question on StackOverflow because the answer to
-their question is already available. This gave the authors a new idea that
+their question was already available. This gave the authors a new idea that
 possibly almost all questions can be found, thus the chance that a user has two
 questions that are not answered on StackOverflow already is rather slim. This
-could cause the community to look like it has many one-day flies whereas the
-one-day flies just have one question that could not be found on StackOverflow
+could cause the community to look like it has many \odf whereas the
+\odf have only one question that could not be found on StackOverflow
 before. If this is the case, then when taking into account the user growth, one
 should see a decrease in the amount of questions asked over time. 
 
-\section{Conclusion and future work}
+\section{Conclusion}
 
-As indicated by the previous sections, there does not seem to be a clear reason
-within these statistics why the group of \textit{one day flies} does contribute
-more to the platform. It therefore seems there are other reasons for one-day
-flies to stop contributing to the StackOverflow platform. In this paper, no
-definite conclusion can be given of the \textit{why} the vast majority of
-StackOverflow only posts one question. However a number of research questions
-were evaluated with their statistics shown in figure \ref{finalResults} , and
-more possible open research questions which can be found in
-\ref{NewResearchQuestions}, allowing for future work.
+In this paper we analyzed an aspect of the underlying structure of the
+SO community, namely the behavior of \odf, users who post only one question
+during their participation to SO, even if they have been registered for at
+least six months. 
 
-\begin{figure}[h]
- \includegraphics[width=9cm]{BarPlot.png}
- \caption{Results of the analysis}
- \label{finalResults}
-\end{figure}
+We investigate five research questions, based on different information sources,
+to verify intuitions we have on the behavior of \odf. Results show that \odf
+are not more likely to create duplicate questions, to use uncommon tags, or to
+receive less views for their questions. But their questions do get removed
+slightly more frequently, either by themselves or a moderator, and they are
+more likely (7\%) to receive no answer to their question. Although these two
+facts could explain part of the reason why \odf participate less, they do not
+seem to account for the whole story. More research is necessary to understand
+better this phenomenon.
+
+As a first step in this direction, we did a manual investigation and suggested
+future research directions. 
 
 \bibliographystyle{abbrv}
 \bibliography{onedayflies}
