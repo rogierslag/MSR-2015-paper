@@ -72,9 +72,9 @@ software development. An interesting characteristic of SO is that about
 half of its users makes only one contribution to the platform in total.
 
 In this work, we study this group of users, which we call \odf, and we 
-investigate why they do not continue to contribute to the platform, despite its
-growing popularity. By achieving this understanding we can find ways to enable
-users to become more active, thus improving the platform. 
+investigate why they do not continue to contribute to the platform.
+By achieving this understanding we can find ways to enable
+users to become more active. 
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -151,10 +151,10 @@ most reputation is by far the smallest (186 users) with a very high average
 reputation of ca. 200.000.
 
 With this information, we define \odf as users who posted a maximum of one
-question in SO, thus covering both low activity and low reputation. We also
+question in SO, thus covering both low activity and low reputation. We only
 consider users that are registered for more than 6 months to avoid that
-recently registered users could bias the results. This set comprises 1.622.688
-users, \ie 47\% of the user base. 
+recently registered users could bias the results. The resulting set comprises
+1.622.688 users, \ie 47\% of the user base. 
 
 
 
@@ -194,7 +194,7 @@ percentage of the users is unfamiliar with platform. However, only $2.2\%$ of
 the one-day flies questions is marked as a duplicate. Surprisingly, this
 percentage increases to $2.9\%$ for \ru; we expected \ru to be more familiar
 with the platform and its search functionality. Based on these results, \odf
-are not more likely to create duplicate questions than regular users, but
+are not more likely to create duplicate questions than \ru, but
 slightly less.\\
 
 
@@ -217,9 +217,9 @@ top $50$ most popular tags given by \odf questions in comparison to the top
 $50$ tags given in all questions in SO. This to get insights on the
 most popular tags and any popular uncommon topics among \odf.
 
-\textbf{Results.} Surprisingly the top-5 tags of both \odf and regular users
+\textbf{Results.} Surprisingly the top-5 tags of both \odf and \ru
 are identical (although ordered different). Although there are a few tags that
-are specific to \odf, most of them is very similar. Based on these results, the
+are specific to \odf, most of them are very similar. Based on these results, the
 answer to our research question is negative.
 
 \begin{tcolorbox}[size=fbox,title=RQ3: Deleted Questions]
@@ -241,9 +241,8 @@ moderators).
 from the database dump as provided by StackOverflow: The only way to know
 whether a question on the data dump has been eventually removed is to check its
 online existence on the SO website. Due to our resources we could not check
-each question in the dump against the website, so we use random sampling. We
-select two samples of 150.000 questions: One for \odf and one for people with a
-high post count. %\AB{how high? Based on what?}
+each question in the dump against the website, so we used random sampling. We
+select two samples of 150.000 questions: One for \odf and one for \ru.
 For each of these sets, we got the SO page and parsed its DOM structure. This
 allowed us to extract whether the question was deleted, or possibly closed.
 
@@ -311,54 +310,41 @@ questions (\ie $17\%$) compared to the other group (\ie $10\%$). It could be
 that our intuition is correct and part of the \odf leave SO because they get
 demotivated by their questions left unanswered. Especially if they saw other
 users receive answers to their posts much more often. Since this difference 
-is only 7\% we can answer the our research question
-positively, but it is sufficient to account for the vast number of \odf.
+is only 7\% we can answer our research question
+positively, but it is not sufficient to account for the vast number of \odf.
 
 
 
-\section{Manual investigation}\label{QualitativeResearch}
+\section{In-depth investigation}\label{QualitativeResearch}
+
 Since the results did not reveal a clear reason that could completely account
-for the whole large number of \odf, we decided upon a small qualitative 
+for the whole large number of \odf, we decided upon a qualitative 
 research to get new ideas and see if something was overlooked that can be found
-in the data. To this aim, we manually analyzed $50$ posts and their
-accepted answer. We found the following patterns:
-\begin{inparaenum}[(1)]
-\item $20$ questions and $19$ accepted answers contained code;
-\item $48$ answerers were friendly, $2$ were unfriendly;
-and \item $11$ times the answer was easily found by a search engine, the other
-$39$ times they tried to find a solution themselves.
-\end{inparaenum}
+in the data. To this aim, we manually analyzed some posts and their
+accepted answer. We found the following parameters which could influence the
+motivation: answer niceness, and the use of code in the question or answer.
 
-Pattern 1 shows that over half the questions and accepted answers
-did not contain code, even though the questions where programming related. Most
-of them where regarding versioning systems, or development methods (such as
-Agile or database systems). To get better insight on this pattern, we did an
-automated search and found that for non \odf $65\%$ of the
-questions had code and $58\%$ of the answers (over the set of all questions
-with an accepted answer). For \odf these numbers were $70\%$ and
-$65\%$, respectively. This indicates \odf give and receive a bit more
-code than the other users.
-During our manual analysis we found the code example to be of rather poor
-quality, we did not investigate this further, but future work could consider
-this aspect.
+The investigation on niceness might be interesting. There still were some answers
+which could not be considered to be very nice, but were still accepted as answer.
+To investigate this deeper, we did a completer analysis on a random sample of
+$10000$ questions and their accepted answers using SentiStrength \cite{thelwall2010sentiment}.
+The result was a number on a scale of $-4$ (very negative) to $4$ (very positive).
+This analysis was run for both the questions and accepted answers for the questions
+asked by \odf, as well as for questions asked by \ru.
 
-We found pattern 2 is interesting: Two answers where unfriendly, but still got
-accepted. We investigated this further by using a Ruby
-script~\cite{nielsen2011new} to evaluate how friendly the answers and questions
-were on a scale of -4 (very unfriendly) to 4 (very friendly) on a larger
-($10.000$) subset of questions. Results showed that non \odf questions had a
-niceness of $0.079$, and the answers they received had a niceness of $0.059$.
-This indicates that both the questions and answers were mostly formal and
-professional, and on average slightly positive. For \odf, this was again a bit
-different: They had a question niceness of $0.196$ and received an answer with
-niceness $0.092$. Still the tone appears to be mostly formal and professional,
-but the underlying touch is a bit more positive.
+This yielded an average niceness of the \odf questions of $0.196$. The accepted
+answers for this segment had a rating of $0.09$. For \ru these numbers respectively
+were $0.080$ and $0.059$. These numbers suggest that \odf get "nicer" answers
+compared to regular users.
 
-Pattern 3 gives the idea that askers are relatively ``lazy.'' However, since
-the classification ``lazy'' is quite opinionated, this cannot be used as a
-direct research result. However we found that a few questions where later
-answered by the question owner him/herself. This gave the idea that one-day
-flies might only use SO for self-documentation purposes. 
+
+
+Codewise, a search on the data set yielded that for \odf, 70\% of their questions contained
+a code block. For \ru, this was 65\%. Although this is done on the entire data set,
+it does not yield information on the quality of the code in the questions. This
+may be a topic for future research.
+The same paradigm is repeated for the answers. Here we see that 65\% of the \odf
+accepted answers contained code, compared to 58\% for the \ru.
 
 \section{Discussion} \label{NewResearchQuestions}
 
@@ -371,7 +357,12 @@ The presented results are not conclusive about what could motivate the behavior
 of \odf. As indicated by the previous sections, there does not seem to be a clear reason
 within these statistics why \odf contribute less to the platform.  However, our
 results gave insights on some aspects that might be interesting venues for
-future work, we describe some of those in the following. 
+future work, we describe some of those in the following. As these factors have not
+een investigated in-depth, they serve as future options for exploration.
+
+It is worth noting that the analyses also have been performed with other characteristics
+for the definition of a \odf. However, this did not yield different results, which is why the
+numbers have been ommitted.
 
 %Assumption of bad code examples
 \subsection{Code example quality}
@@ -465,10 +456,7 @@ slightly more frequently, either by themselves or a moderator, and they are
 more likely (7\%) to receive no answer to their question. Although these two
 facts could explain part of the reason why \odf participate less, they do not
 seem to account for the whole story. More research is necessary to understand
-better this phenomenon.
-
-As a first step in this direction, we did a manual investigation and suggested
-future research directions. 
+this phenomenon better.
 
 \bibliographystyle{abbrv}
 \bibliography{onedayflies}
